@@ -188,6 +188,26 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => 45,
+                'title' => 'scope_create',
+            ],
+            [
+                'id'    => 46,
+                'title' => 'scope_edit',
+            ],
+            [
+                'id'    => 47,
+                'title' => 'scope_show',
+            ],
+            [
+                'id'    => 48,
+                'title' => 'scope_delete',
+            ],
+            [
+                'id'    => 49,
+                'title' => 'scope_access',
+            ],
+            [
+                'id'    => 50,
                 'title' => 'profile_password_edit',
             ],
         ];

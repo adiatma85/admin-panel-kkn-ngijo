@@ -1,5 +1,9 @@
 <?php
 
+// Add on to not show the error in web/routes/php
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
 Route::redirect('/', '/login');
 Route::get('/home', function () {
     if (session('status')) {
@@ -46,6 +50,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('announcements/media', 'AnnouncementController@storeMedia')->name('announcements.storeMedia');
     Route::post('announcements/ckmedia', 'AnnouncementController@storeCKEditorImages')->name('announcements.storeCKEditorImages');
     Route::resource('announcements', 'AnnouncementController');
+
+    // Scope
+    Route::delete('scopes/destroy', 'ScopeController@massDestroy')->name('scopes.massDestroy');
+    Route::resource('scopes', 'ScopeController');
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
     // Change password
