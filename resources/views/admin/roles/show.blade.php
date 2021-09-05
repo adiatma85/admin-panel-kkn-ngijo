@@ -41,6 +41,14 @@
                             @endforeach
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.role.fields.scope') }}
+                        </th>
+                        <td>
+                            {{ $role->scope->name ?? "" }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

@@ -36,6 +36,9 @@ class UsersController extends Controller
     {
         $user = User::create($request->all());
         $user->roles()->sync($request->input('roles', []));
+        // Quick fix hardcode in user->role
+        $user->scope_id = $user->roles[0]->scope_id;
+        $user->save();
 
         return redirect()->route('admin.users.index');
     }
@@ -55,6 +58,10 @@ class UsersController extends Controller
     {
         $user->update($request->all());
         $user->roles()->sync($request->input('roles', []));
+        if (count($user->roles) != 0) {
+            $user->scope_id = $user->roles[0]->scope_id;
+            $user->save();
+        }
 
         return redirect()->route('admin.users.index');
     }

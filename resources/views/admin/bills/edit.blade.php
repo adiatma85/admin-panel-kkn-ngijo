@@ -38,9 +38,9 @@
             <div class="form-group">
                 <label for="scope_id" class="required">{{ trans('cruds.bill.fields.scope') }}</label>
                 <select class="form-control {{ $errors->has('scope_id') ? 'is-invalid' : '' }}" name="scope_id" id="scope_id" required>
-                    <option value disabled {{ old('scope_id', $bill->sc) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
+                    <option value disabled {{ old('scope_id', $bill->scope_id) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
                     @foreach($scopes as $scope)
-                        <option value="{{ $scope->id }}" {{ old('scope_id', $bill->scope->id) === (string) $scope->id ? 'selected' : '' }}>{{ $scope->name }}</option>
+                        <option value="{{ $scope->id }}" {{ old('scope_id', $bill->scope->id) === $scope->id ? 'selected' : '' }}>{{ $scope->name }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('scope_id'))

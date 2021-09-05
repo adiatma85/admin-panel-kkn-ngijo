@@ -8,6 +8,7 @@ use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
 use App\Models\Permission;
 use App\Models\Role;
+use App\Models\Scope;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,7 +30,9 @@ class RolesController extends Controller
 
         $permissions = Permission::pluck('title', 'id');
 
-        return view('admin.roles.create', compact('permissions'));
+        $scopes = Scope::all();
+
+        return view('admin.roles.create', compact('permissions', 'scopes'));
     }
 
     public function store(StoreRoleRequest $request)
@@ -48,7 +51,9 @@ class RolesController extends Controller
 
         $role->load('permissions');
 
-        return view('admin.roles.edit', compact('permissions', 'role'));
+        $scopes = Scope::all();
+
+        return view('admin.roles.edit', compact('permissions', 'role', 'scopes'));
     }
 
     public function update(UpdateRoleRequest $request, Role $role)

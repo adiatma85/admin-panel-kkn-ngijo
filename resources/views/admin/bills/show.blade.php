@@ -52,7 +52,7 @@
                             {{ trans('cruds.bill.fields.scope') }}
                         </th>
                         <td>
-                            Ini nanti scope tempatnya di mana
+                            {{ $bill->scope->name ?? "" }}
                         </td>
                     </tr>
                 </tbody>

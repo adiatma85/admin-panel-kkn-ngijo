@@ -4,13 +4,13 @@ namespace App\Models;
 
 use \DateTimeInterface;
 use Carbon\Carbon;
-use Hash;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
@@ -41,6 +41,7 @@ class User extends Authenticatable
         'created_at',
         'updated_at',
         'deleted_at',
+        'scope_id',
     ];
 
     public function getIsAdminAttribute()
@@ -78,5 +79,11 @@ class User extends Authenticatable
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
+    }
+    
+    // Relationship to scope
+    public function scope()
+    {
+        return $this->belongsTo(Scope::class, 'scope_id');
     }
 }
