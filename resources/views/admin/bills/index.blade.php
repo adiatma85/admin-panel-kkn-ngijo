@@ -35,6 +35,9 @@
                             {{ trans('cruds.bill.fields.price') }}
                         </th>
                         <th>
+                            {{ trans('cruds.bill.fields.scope') }}
+                        </th>
+                        <th>
                             &nbsp;
                         </th>
                     </tr>
@@ -56,6 +59,9 @@
                             </td>
                             <td>
                                 {{ $bill->price ?? '' }}
+                            </td>
+                            <td>
+                                {{ $bill->scope->name ?? "" }}
                             </td>
                             <td>
                                 @can('bill_show')

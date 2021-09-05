@@ -28,6 +28,9 @@ class UpdateBillRequest extends FormRequest
             'price' => [
                 'required',
             ],
+            'scope_id' => [
+                'required'
+            ],
         ];
     }
 }

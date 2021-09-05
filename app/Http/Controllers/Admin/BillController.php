@@ -7,6 +7,7 @@ use App\Http\Requests\MassDestroyBillRequest;
 use App\Http\Requests\StoreBillRequest;
 use App\Http\Requests\UpdateBillRequest;
 use App\Models\Bill;
+use App\Models\Scope;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,7 +27,9 @@ class BillController extends Controller
     {
         abort_if(Gate::denies('bill_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.bills.create');
+        $scopes = Scope::all();
+
+        return view('admin.bills.create', compact('scopes'));
     }
 
     public function store(StoreBillRequest $request)
@@ -40,7 +43,9 @@ class BillController extends Controller
     {
         abort_if(Gate::denies('bill_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.bills.edit', compact('bill'));
+        $scopes = Scope::all();
+
+        return view('admin.bills.edit', compact('bill', 'scopes'));
     }
 
     public function update(UpdateBillRequest $request, Bill $bill)

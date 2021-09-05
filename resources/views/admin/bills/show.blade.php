@@ -47,6 +47,14 @@
                             {{ $bill->price }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.bill.fields.scope') }}
+                        </th>
+                        <td>
+                            Ini nanti scope tempatnya di mana
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

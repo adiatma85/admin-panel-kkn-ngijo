@@ -31,4 +31,10 @@ class Scope extends Model
     {
         return $date->format('Y-m-d H:i:s');
     }
+
+    // Relationship to bill
+    public function bills()
+    {
+        return $this->hasMany(Bill::class, 'scope_id');
+    }
 }

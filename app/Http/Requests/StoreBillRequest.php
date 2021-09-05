@@ -28,6 +28,9 @@ class StoreBillRequest extends FormRequest
             'price' => [
                 'required',
             ],
+            'scope_id' => [
+                'required'
+            ],
         ];
     }
 }
