@@ -27,13 +27,21 @@
             </div>
             <div class="form-group">
                 <label class="required" for="price">{{ trans('cruds.bill.fields.price') }}</label>
-                <input class="form-control {{ $errors->has('price') ? 'is-invalid' : '' }}" type="number" name="price" id="price" value="{{ old('price', '0') }}" step="0.01" required>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Rp</span>  
+                    </div>
+                    <input class="form-control {{ $errors->has('price') ? 'is-invalid' : '' }}" type="number" name="price" id="price" value="{{ old('price', '0') }}" step="0.01" required>
+                    <div class="input-group-append">
+                        <span class="input-group-text">.00</span>  
+                    </div>
+                </div>
                 @if($errors->has('price'))
                     <span class="text-danger">{{ $errors->first('price') }}</span>
                 @endif
                 <span class="help-block">{{ trans('cruds.bill.fields.price_helper') }}</span>
             </div>
-            <div class="form-group">
+            
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>
