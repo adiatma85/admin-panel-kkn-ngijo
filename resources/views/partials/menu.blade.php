@@ -68,6 +68,18 @@
                                     </a>
                                 </li>
                             @endcan
+                            @can('scope_access')
+                                <li class="nav-item">
+                                    <a href="{{ route("admin.scopes.index") }}" class="nav-link {{ request()->is("admin/scopes") || request()->is("admin/scopes/*") ? "active" : "" }}">
+                                        <i class="fa-fw nav-icon fas fa-desktop">
+
+                                        </i>
+                                        <p>
+                                            {{ trans('cruds.scope.title') }}
+                                        </p>
+                                    </a>
+                                </li>
+                            @endcan
                         </ul>
                     </li>
                 @endcan

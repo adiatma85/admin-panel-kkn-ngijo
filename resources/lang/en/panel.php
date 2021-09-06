@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'site_title' => 'kkn',
+    'site_title' => 'Panel Management Iuran dan Informasi',
 ];

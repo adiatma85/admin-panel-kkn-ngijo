@@ -27,10 +27,17 @@ class Bill extends Model
         'created_at',
         'updated_at',
         'deleted_at',
+        'scope_id',
     ];
 
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
+    }
+
+    // Relationship to Scope
+    public function scope()
+    {
+        return $this->belongsTo(Scope::class, 'scope_id');
     }
 }

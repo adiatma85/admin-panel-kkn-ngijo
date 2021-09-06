@@ -39,6 +39,14 @@
                             {{ App\Models\MonthlyBill::BULAN_SELECT[$monthlyBill->bulan] ?? '' }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.monthlyBill.fields.iuran') }}
+                        </th>
+                        <td>
+                            Nanti di sini isinya iuran-iuran
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">
