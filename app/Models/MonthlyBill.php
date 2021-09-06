@@ -41,10 +41,55 @@ class MonthlyBill extends Model
         'created_at',
         'updated_at',
         'deleted_at',
+        'scope_id',
     ];
 
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
+    }
+
+    // Relationship to MonthlyBillToBill
+    public function monthlyBilltoBill()
+    {
+        return $this->hasMany(MonthlyBillToBill::class, 'monthly_bill_id');
+    }
+
+    // Relationship to Scope
+    public function scope()
+    {
+        return $this->belongsTo(Scope::class, 'scope_id');
+    }
+
+    // Get arrayonly bill
+    public function getArrayOnlyBills()
+    {
+        $query = $this->query()
+            ->join('monthly_bill_to_bills', 'monthly_bill_to_bills.id', '=', 'monthly_bills.id')
+            ->where('monthly_bill_to_bills.deleted_at', '=', null)
+            ->select('monthly_bill_to_bills.bill_id')
+            ->get();
+        if (count($query) != 0) {
+            $array = [];
+            foreach ($query as $item) {
+                array_push($array, $item->bill_id);
+            }
+            return $array;
+        }
+        return [];
+    }
+
+    // Get Boll
+    public function getArrayOfBil()
+    {
+        $query = $this->query()
+            ->join('monthly_bill_to_bills', 'monthly_bill_to_bills.id', '=', 'monthly_bills.id')
+            ->join('bills', 'bills.id', '=', 'monthly_bill_to_bills.bill_id')
+            ->where('monthly_bill_to_bills.deleted_at', '=', null)
+            ->where('bills.deleted_at', '=', null)
+            ->select('bills.id')
+            ->select('bills.name')
+            ->get();
+        return $query;
     }
 }
