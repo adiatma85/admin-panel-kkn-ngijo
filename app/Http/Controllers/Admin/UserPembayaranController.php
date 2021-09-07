@@ -19,19 +19,20 @@ class UserPembayaranController extends Controller
         // Fetch tagihan sesuai dengan scope
         $monthlyBills = Auth::user()->scope_id != 0 ? MonthlyBill::all() : MonthlyBill::where('scope_id', Auth::user()->scope_id)->get();
 
-        return view('pembayarans.index', compact('monthlyBills'));
+        return view('admin.pembayarans.index', compact('monthlyBills'));
     }
 
     public function show($monthlyBillId)
     {
         $monthlyBill = MonthlyBill::where('id', $monthlyBillId)->first();
-        return view('pembayarans.show', compact('monthlyBill'));
+        
+        return view('admin.pembayarans.show', compact('monthlyBill'));
     }
 
     public function edit($monthlyBillId)
     {
         $monthlyBill = MonthlyBill::where('id', $monthlyBillId)->first();
-        return view('pembayarans.edit', compact('monthlyBill'));
+        return view('admin.pembayarans.edit', compact('monthlyBill'));
     }
 
 

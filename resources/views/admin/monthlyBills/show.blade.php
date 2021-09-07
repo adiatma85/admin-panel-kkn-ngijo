@@ -44,7 +44,12 @@
                             {{ trans('cruds.monthlyBill.fields.iuran') }}
                         </th>
                         <td>
-                            Nanti di sini isinya iuran-iuran
+                            @foreach ($monthlyBill->monthlyBilltoBill as $itemPivot)
+                                <li>
+                                    {{ $itemPivot->bill->name ?? "" }} : 
+                                    Rp. {{ $itemPivot->bill->price ?? "" }}
+                                </li>
+                            @endforeach
                         </td>
                     </tr>
                 </tbody>

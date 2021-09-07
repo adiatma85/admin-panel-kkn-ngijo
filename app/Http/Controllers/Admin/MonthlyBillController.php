@@ -10,17 +10,22 @@ use App\Models\MonthlyBill;
 use App\Models\Bill;
 use App\Models\MonthlyBillToBill;
 use App\Models\Scope;
+use App\Http\Controllers\Traits\CheckingScope;
+use Illuminate\Support\Facades\Auth;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class MonthlyBillController extends Controller
 {
+
+    use CheckingScope;
+
     public function index()
     {
         abort_if(Gate::denies('monthly_bill_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $monthlyBills = MonthlyBill::all();
+        $monthlyBills = $this->checkingScope() ? MonthlyBill::all() : MonthlyBill::where('scope_id', Auth::user()->scope_id)->get();
 
         return view('admin.monthlyBills.index', compact('monthlyBills'));
     }
@@ -29,9 +34,9 @@ class MonthlyBillController extends Controller
     {
         abort_if(Gate::denies('monthly_bill_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $iurans = Bill::all();
+        $iurans = $this->checkingScope() ? Bill::all() : Bill::where('scope_id', Auth::user()->scope_id)->get();
 
-        $scopes = Scope::all();
+        $scopes = $this->checkingScope() ? Scope::all() : [];
 
         return view('admin.monthlyBills.create', compact('iurans', 'scopes'));
     }
@@ -62,9 +67,9 @@ class MonthlyBillController extends Controller
     {
         abort_if(Gate::denies('monthly_bill_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $iurans = Bill::all();
+        $iurans = $this->checkingScope() ? Bill::all() : Bill::where('scope_id', Auth::user()->scope_id)->get();
 
-        $scopes = Scope::all();
+        $scopes = $this->checkingScope() ? Scope::all() : [];
 
         $arrayedBillId = $monthlyBill->monthlyBilltoBill
             ->pluck('bill_id')

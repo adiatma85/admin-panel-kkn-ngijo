@@ -8,17 +8,21 @@ use App\Http\Requests\StoreBillRequest;
 use App\Http\Requests\UpdateBillRequest;
 use App\Models\Bill;
 use App\Models\Scope;
+use App\Http\Controllers\Traits\CheckingScope;
+use Illuminate\Support\Facades\Auth;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class BillController extends Controller
 {
+    use CheckingScope;
+
     public function index()
     {
         abort_if(Gate::denies('bill_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $bills = Bill::all();
+        $bills = $this->checkingScope() ? Bill::all() : Bill::where('scope_id', Auth::user()->scope_id)->get();
 
         return view('admin.bills.index', compact('bills'));
     }
@@ -27,7 +31,7 @@ class BillController extends Controller
     {
         abort_if(Gate::denies('bill_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $scopes = Scope::all();
+        $scopes = $this->checkingScope() ? Scope::all() : [];
 
         return view('admin.bills.create', compact('scopes'));
     }
@@ -43,7 +47,7 @@ class BillController extends Controller
     {
         abort_if(Gate::denies('bill_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $scopes = Scope::all();
+        $scopes = $this->checkingScope() ? Scope::all() : [];
 
         return view('admin.bills.edit', compact('bill', 'scopes'));
     }
