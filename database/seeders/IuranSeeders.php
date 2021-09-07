@@ -3,8 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\Bill;
+use Illuminate\Database\Seeder;
 
-class IuranSeeder
+class IuranSeeder extends Seeder
 {
     public function run()
     {

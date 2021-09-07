@@ -1,41 +1,32 @@
 @extends('layouts.admin')
 @section('content')
-@can('user_to_monthly_bill_create')
-    <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route('admin.user-to-monthly-bills.create') }}">
-                {{ trans('global.add') }} {{ trans('cruds.userToMonthlyBill.title_singular') }}
-            </a>
-        </div>
-    </div>
-@endcan
 <div class="card">
     <div class="card-header">
-        {{ trans('cruds.userToMonthlyBill.title_singular') }} {{ trans('global.list') }}
+        Daftar Iuran Bulanan
     </div>
 
     <div class="card-body">
         <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-UserToMonthlyBill">
+            <table class=" table table-bordered table-striped table-hover datatable datatable-MonthlyBill">
                 <thead>
                     <tr>
                         <th width="10">
 
                         </th>
                         <th>
-                            {{ trans('cruds.userToMonthlyBill.fields.id') }}
+                            {{ trans('cruds.pembayarans.fields.id') }}
                         </th>
                         <th>
-                            {{ trans('cruds.userToMonthlyBill.fields.user') }}
+                            {{ trans('cruds.pembayarans.fields.tahun') }}
                         </th>
                         <th>
-                            {{ trans('cruds.userToMonthlyBill.fields.monthly_bill') }}
+                            {{ trans('cruds.pembayarans.fields.bulan') }}
                         </th>
                         <th>
-                            {{ trans('cruds.userToMonthlyBill.fields.status_pembayaran') }}
+                            {{ trans('cruds.pembayarans.fields.scope') }}
                         </th>
                         <th>
-                            {{ trans('cruds.userToMonthlyBill.fields.images') }}
+                            {{ trans('cruds.pembayarans.fields.status') }}
                         </th>
                         <th>
                             &nbsp;
@@ -43,50 +34,54 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($userToMonthlyBills as $key => $userToMonthlyBill)
-                        <tr data-entry-id="{{ $userToMonthlyBill->id }}">
+                    @foreach($monthlyBills as $key => $monthlyBill)
+                        <tr data-entry-id="{{ $monthlyBill->id }}">
                             <td>
 
                             </td>
                             <td>
-                                {{ $userToMonthlyBill->id ?? '' }}
+                                {{ $monthlyBill->id ?? '' }}
                             </td>
                             <td>
-                                {{ $userToMonthlyBill->user->name ?? '' }}
+                                {{ $monthlyBill->tahun ?? '' }}
                             </td>
                             <td>
-                                {{ $userToMonthlyBill->monthly_bill->tahun ?? '' }}
+                                {{ App\Models\MonthlyBill::BULAN_SELECT[$monthlyBill->bulan] ?? 'Bulan' }}
                             </td>
                             <td>
-                                {{ App\Models\UserToMonthlyBill::STATUS_PEMBAYARAN_SELECT[$userToMonthlyBill->status_pembayaran] ?? '' }}
+                                {{ $monthlyBill->scope->name ?? "" }}
                             </td>
                             <td>
-                                @foreach($userToMonthlyBill->images as $key => $media)
-                                    <a href="{{ $media->getUrl() }}" target="_blank" style="display: inline-block">
-                                        <img src="{{ $media->getUrl('thumb') }}">
-                                    </a>
-                                @endforeach
+                                @php
+                                   $isPaidOrNot = App\Models\UserToMonthlyBill::where('user_id', Auth::user()->id)->where('monthly_bill_id', $monthlyBill->id); 
+                                // Jika mana sudah membayar
+                                    if ($isPaidOrNot->exists()) {
+                                        $obj = $isPaidOrNot->first();
+                                    }
+                                @endphp
+                                {{ $isPaidOrNot->exists() ? $obj->status_pembayaran : "Not Paid" }}
                             </td>
                             <td>
-                                @can('user_to_monthly_bill_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.user-to-monthly-bills.show', $userToMonthlyBill->id) }}">
+                                {{-- Action --}}
+                                {{-- @can('monthly_bill_show') --}}
+                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.pembayarans.show', $monthlyBill->id) }}">
                                         {{ trans('global.view') }}
                                     </a>
-                                @endcan
+                                {{-- @endcan --}}
 
-                                @can('user_to_monthly_bill_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.user-to-monthly-bills.edit', $userToMonthlyBill->id) }}">
+                                {{-- @can('monthly_bill_edit') --}}
+                                    <a class="btn btn-xs btn-info" href="{{ route('admin.pembayarans.edit', $monthlyBill->id) }}">
                                         {{ trans('global.edit') }}
                                     </a>
-                                @endcan
+                                {{-- @endcan --}}
 
-                                @can('user_to_monthly_bill_delete')
-                                    <form action="{{ route('admin.user-to-monthly-bills.destroy', $userToMonthlyBill->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                {{-- @can('monthly_bill_delete')
+                                    <form action="{{ route('admin.monthly-bills.destroy', $monthlyBill->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
                                     </form>
-                                @endcan
+                                @endcan --}}
 
                             </td>
 
@@ -106,11 +101,11 @@
 <script>
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-@can('user_to_monthly_bill_delete')
+@can('monthly_bill_delete')
   let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
   let deleteButton = {
     text: deleteButtonTrans,
-    url: "{{ route('admin.user-to-monthly-bills.massDestroy') }}",
+    url: "{{ route('admin.monthly-bills.massDestroy') }}",
     className: 'btn-danger',
     action: function (e, dt, node, config) {
       var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
@@ -141,7 +136,7 @@
     order: [[ 1, 'desc' ]],
     pageLength: 100,
   });
-  let table = $('.datatable-UserToMonthlyBill:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  let table = $('.datatable-MonthlyBill:not(.ajaxTable)').DataTable({ buttons: dtButtons })
   $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();

@@ -3,8 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\Scope;
+use Illuminate\Database\Seeder;
 
-class ScopeSeeders
+class ScopeSeeders extends Seeder
 {
     public function run()
     {
@@ -25,5 +26,7 @@ class ScopeSeeders
                 "name" => "Randuagung 2",
             ]
         ];
+
+        Scope::insert($scopes);
     }
 }

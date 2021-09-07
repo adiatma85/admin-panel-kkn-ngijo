@@ -10,6 +10,7 @@ class CreateUserToMonthlyBillsTable extends Migration
     {
         Schema::create('user_to_monthly_bills', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('status_pembayaran')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -35,6 +35,28 @@
                 <span class="help-block">{{ trans('cruds.userToMonthlyBill.fields.monthly_bill_helper') }}</span>
             </div>
             <div class="form-group">
+                <label>{{ trans('cruds.userToMonthlyBill.fields.status_pembayaran') }}</label>
+                <select class="form-control {{ $errors->has('status_pembayaran') ? 'is-invalid' : '' }}" name="status_pembayaran" id="status_pembayaran">
+                    <option value disabled {{ old('status_pembayaran', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
+                    @foreach(App\Models\UserToMonthlyBill::STATUS_PEMBAYARAN_SELECT as $key => $label)
+                        <option value="{{ $key }}" {{ old('status_pembayaran', $userToMonthlyBill->status_pembayaran) === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('status_pembayaran'))
+                    <span class="text-danger">{{ $errors->first('status_pembayaran') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.userToMonthlyBill.fields.status_pembayaran_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="images">{{ trans('cruds.userToMonthlyBill.fields.images') }}</label>
+                <div class="needsclick dropzone {{ $errors->has('images') ? 'is-invalid' : '' }}" id="images-dropzone">
+                </div>
+                @if($errors->has('images'))
+                    <span class="text-danger">{{ $errors->first('images') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.userToMonthlyBill.fields.images_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>
@@ -45,4 +67,67 @@
 
 
 
+@endsection
+
+@section('scripts')
+<script>
+    var uploadedImagesMap = {}
+Dropzone.options.imagesDropzone = {
+    url: '{{ route('admin.user-to-monthly-bills.storeMedia') }}',
+    maxFilesize: 2, // MB
+    acceptedFiles: '.jpeg,.jpg,.png,.gif',
+    addRemoveLinks: true,
+    headers: {
+      'X-CSRF-TOKEN': "{{ csrf_token() }}"
+    },
+    params: {
+      size: 2,
+      width: 4096,
+      height: 4096
+    },
+    success: function (file, response) {
+      $('form').append('<input type="hidden" name="images[]" value="' + response.name + '">')
+      uploadedImagesMap[file.name] = response.name
+    },
+    removedfile: function (file) {
+      console.log(file)
+      file.previewElement.remove()
+      var name = ''
+      if (typeof file.file_name !== 'undefined') {
+        name = file.file_name
+      } else {
+        name = uploadedImagesMap[file.name]
+      }
+      $('form').find('input[name="images[]"][value="' + name + '"]').remove()
+    },
+    init: function () {
+@if(isset($userToMonthlyBill) && $userToMonthlyBill->images)
+      var files = {!! json_encode($userToMonthlyBill->images) !!}
+          for (var i in files) {
+          var file = files[i]
+          this.options.addedfile.call(this, file)
+          this.options.thumbnail.call(this, file, file.preview)
+          file.previewElement.classList.add('dz-complete')
+          $('form').append('<input type="hidden" name="images[]" value="' + file.file_name + '">')
+        }
+@endif
+    },
+     error: function (file, response) {
+         if ($.type(response) === 'string') {
+             var message = response //dropzone sends it's own error messages in string
+         } else {
+             var message = response.errors.file
+         }
+         file.previewElement.classList.add('dz-error')
+         _ref = file.previewElement.querySelectorAll('[data-dz-errormessage]')
+         _results = []
+         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+             node = _ref[_i]
+             _results.push(node.textContent = message)
+         }
+
+         return _results
+     }
+}
+</script>
 @endsection

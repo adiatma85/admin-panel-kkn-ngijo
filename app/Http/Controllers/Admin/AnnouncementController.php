@@ -8,6 +8,9 @@ use App\Http\Requests\MassDestroyAnnouncementRequest;
 use App\Http\Requests\StoreAnnouncementRequest;
 use App\Http\Requests\UpdateAnnouncementRequest;
 use App\Models\Announcement;
+use App\Models\Scope;
+use App\Http\Controllers\Traits\CheckingScope;
+use Illuminate\Support\Facades\Auth;
 use Gate;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -16,12 +19,15 @@ use Symfony\Component\HttpFoundation\Response;
 class AnnouncementController extends Controller
 {
     use MediaUploadingTrait;
+    use CheckingScope;
 
     public function index()
     {
         abort_if(Gate::denies('announcement_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $announcements = Announcement::with(['media'])->get();
+        $announcements = Announcement::with('media');
+
+        $announcements = $this->checkingScope() ? $announcements->get() : $announcements->where('scope_id', Auth::user()->scope_id)->get();
 
         return view('admin.announcements.index', compact('announcements'));
     }
@@ -30,7 +36,9 @@ class AnnouncementController extends Controller
     {
         abort_if(Gate::denies('announcement_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.announcements.create');
+        $scopes = $this->checkingScope() ? Scope::all() : [];
+
+        return view('admin.announcements.create', compact('scopes'));
     }
 
     public function store(StoreAnnouncementRequest $request)
@@ -52,7 +60,9 @@ class AnnouncementController extends Controller
     {
         abort_if(Gate::denies('announcement_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.announcements.edit', compact('announcement'));
+        $scopes = $this->checkingScope() ? Scope::all() : [];
+
+        return view('admin.announcements.edit', compact('announcement', 'scopes'));
     }
 
     public function update(UpdateAnnouncementRequest $request, Announcement $announcement)
