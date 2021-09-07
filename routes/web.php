@@ -56,6 +56,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('scopes', 'ScopeController');
 
     // Pembayaran
+    Route::post('pembayarans/media', 'UserPembayaranController@storeMedia')->name('pembayarans.storeMedia');
     Route::resource('pembayarans', 'UserPembayaranController');
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {

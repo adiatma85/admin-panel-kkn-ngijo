@@ -225,6 +225,9 @@ return [
             "status_helper"     => " ",
             "scope"             => "Scope",
             'scope_helper'      => " ",
+            'image'             => "Foto Bukti Transaksi",
+            "image_helper"      => " ",
+            
         ],
     ],
 ];

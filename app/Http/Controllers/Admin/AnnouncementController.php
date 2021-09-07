@@ -25,9 +25,9 @@ class AnnouncementController extends Controller
     {
         abort_if(Gate::denies('announcement_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $announcement = Announcement::with('media');
+        $announcements = Announcement::with('media');
 
-        $announcement = $this->checkingScope() ? $announcement->get() : $announcement->where('scope_id', Auth::user()->scope_id)->get();
+        $announcements = $this->checkingScope() ? $announcements->get() : $announcements->where('scope_id', Auth::user()->scope_id)->get();
 
         return view('admin.announcements.index', compact('announcements'));
     }

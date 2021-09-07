@@ -70,7 +70,7 @@
                                 {{-- @endcan --}}
 
                                 {{-- @can('monthly_bill_edit') --}}
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.monthly-bills.edit', $monthlyBill->id) }}">
+                                    <a class="btn btn-xs btn-info" href="{{ route('admin.pembayarans.edit', $monthlyBill->id) }}">
                                         {{ trans('global.edit') }}
                                     </a>
                                 {{-- @endcan --}}

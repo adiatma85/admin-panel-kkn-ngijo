@@ -7,10 +7,14 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\MonthlyBill;
 use App\Models\UserToMonthlyBill;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Illuminate\Http\Request;
 
 class UserPembayaranController extends Controller
 {
+
+    use MediaUploadingTrait;
+
     public function index()
     {
         $user = Auth::user();
@@ -32,7 +36,10 @@ class UserPembayaranController extends Controller
     public function edit($monthlyBillId)
     {
         $monthlyBill = MonthlyBill::where('id', $monthlyBillId)->first();
-        return view('admin.pembayarans.edit', compact('monthlyBill'));
+        $userToMonthlyBill = UserToMonthlyBill::where('monthly_bill_id', $monthlyBill->id)
+            ->where('user_id', Auth::user()->id)
+            ->first();
+        return view('admin.pembayarans.edit', compact('monthlyBill', 'userToMonthlyBill'));
     }
 
 
@@ -42,10 +49,10 @@ class UserPembayaranController extends Controller
         $userMonthlyBill = UserToMonthlyBill::firstOrCreate(
             ['user_id' => Auth::user()->id, 'monthly_bill_id' => $monthlyBillId]
         );
-        foreach ($request->input('image') as $image) {
-            $userMonthlyBill->addMedia(storage_path('tmp/uploads/' . basename($image)))->toMediaCollection('attachment');
+        foreach ($request->input('images') as $image) {
+            $userMonthlyBill->addMedia(storage_path('tmp/uploads/' . basename($image)))->toMediaCollection('images');
         }
-        return redirect()->route('pembayaran.index');
+        return redirect()->route('admin.pembayarans.index');
     }
 
     // no delete function in this group

@@ -7,59 +7,105 @@
     </div>
 
     <div class="card-body">
-        <form method="POST" action="{{ route("admin.monthly-bills.update", [$monthlyBill->id]) }}" enctype="multipart/form-data">
+        <div class="form-group">
+            <div class="form-group">
+                <a class="btn btn-default" href="{{ route('admin.monthly-bills.index') }}">
+                    {{ trans('global.back_to_list') }}
+                </a>
+            </div>
+            <table class="table table-bordered table-striped">
+                <tbody>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.monthlyBill.fields.id') }}
+                        </th>
+                        <td>
+                            {{ $monthlyBill->id ?? ""}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.monthlyBill.fields.tahun') }}
+                        </th>
+                        <td>
+                            {{ $monthlyBill->tahun ?? ""}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Nama
+                        </th>
+                        <td>
+                            {{ Auth::user()->name ?? "" }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.monthlyBill.fields.bulan') }}
+                        </th>
+                        <td>
+                            {{ App\Models\MonthlyBill::BULAN_SELECT[$monthlyBill->bulan] ?? '' }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <h2>
+                Detail Iuran-Iuran
+            </h2>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <th>
+                        Nama iuran
+                    </th>
+                    <th>
+                        Price
+                    </th>
+                    {{-- <th>
+                        Metode Pembayaran
+                    </th> --}}
+                    <th>
+                        Status Pembayaran
+                    </th>
+                </thead>
+                <tbody>
+                    @foreach ($monthlyBill->monthlyBilltoBill as $itemPivot)
+                        <tr>
+                            <td>
+                                {{ $itemPivot->bill->name ?? "Nama iuran" }}
+                            </td>
+                            <td>
+                                Rp. {{ $itemPivot->bill->price ?? "Harga iuran" }}
+                            </td>
+                            {{-- <td>
+                                Metode Pembayaran
+                            </td> --}}
+                            <td>
+                                <div class="row">
+                                    <div class="col-6">
+                                        Badge Pembayaran
+                                    </div>
+                                    <div class="col-6">
+                                        Tanggal Pembayaran kalau ada
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>                       
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        <form method="POST" action="{{ route('admin.pembayarans.update', [ "pembayaran" => $monthlyBill->id ]) }}" enctype="multipart/form-data">
             @method('PUT')
             @csrf
+            {{-- Foto --}}
             <div class="form-group">
-                <label class="required" for="tahun">{{ trans('cruds.monthlyBill.fields.tahun') }}</label>
-                <input class="form-control {{ $errors->has('tahun') ? 'is-invalid' : '' }}" type="text" name="tahun" id="tahun" value="{{ old('tahun', $monthlyBill->tahun) }}" required>
-                @if($errors->has('tahun'))
-                    <span class="text-danger">{{ $errors->first('tahun') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.monthlyBill.fields.tahun_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label class="required">{{ trans('cruds.monthlyBill.fields.bulan') }}</label>
-                <select class="form-control {{ $errors->has('bulan') ? 'is-invalid' : '' }}" name="bulan" id="bulan" required>
-                    <option value disabled {{ old('bulan', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                    @foreach(App\Models\MonthlyBill::BULAN_SELECT as $key => $label)
-                        <option value="{{ $key }}" {{ old('bulan', $monthlyBill->bulan) === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('bulan'))
-                    <span class="text-danger">{{ $errors->first('bulan') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.monthlyBill.fields.bulan_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label class="required" for="iurans">{{ trans('cruds.monthlyBill.fields.iuran') }}</label>
-                <div style="padding-bottom: 4px">
-                    <span class="btn btn-info btn-xs select-all" style="border-radius: 0">{{ trans('global.select_all') }}</span>
-                    <span class="btn btn-info btn-xs deselect-all" style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
+                <label class="required" for="image">{{ trans('cruds.pembayarans.fields.image') }}</label>
+                <div class="needsclick dropzone {{ $errors->has('image') ? 'is-invalid' : '' }}" id="image-dropzone">
                 </div>
-                <select class="form-control select2 {{ $errors->has('iurans') ? 'is-invalid' : '' }}" name="iurans[]" id="iurans" multiple required>
-                    @foreach(($iurans ?? []) as $iuran)
-                        <option value="{{ $iuran->id }}" {{ in_array($iuran->id, old('iurans', $monthlyBill->getArrayOnlyBills())) ? 'selected' : '' }}>{{ $iuran->name }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('iurans'))
-                    <span class="text-danger">{{ $errors->first('iurans') }}</span>
+                @if($errors->has('image'))
+                    <span class="text-danger">{{ $errors->first('image') }}</span>
                 @endif
-                <span class="help-block">{{ trans('cruds.monthlyBill.fields.iuran_helper') }}</span>
-            </div>
-            {{-- Scope --}}
-            <div class="form-group">
-                <label for="scope_id" class="required">{{ trans('cruds.bill.fields.scope') }}</label>
-                <select class="form-control {{ $errors->has('scope_id') ? 'is-invalid' : '' }}" name="scope_id" id="scope_id" required>
-                    <option value disabled {{ old('scope_id', $monthlyBill->scope_id) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                    @foreach( ($scopes ?? []) as $scope)
-                        <option value="{{ $scope->id }}" {{ old('scope_id', $monthlyBill->scope->id) === $scope->id ? 'selected' : '' }}>{{ $scope->name }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('scope_id'))
-                    <span class="text-danger">{{ $errors->first('scope_id') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.bill.fields.scope_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.pembayarans.fields.image_helper') }}</span>
             </div>
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">
@@ -72,4 +118,66 @@
 
 
 
+@endsection
+@section('scripts')
+<script>
+    var uploadedImageMap = {}
+Dropzone.options.imageDropzone = {
+    url: '{{ route('admin.pembayarans.storeMedia') }}',
+    maxFilesize: 2, // MB
+    acceptedFiles: '.jpeg,.jpg,.png,.gif',
+    addRemoveLinks: true,
+    headers: {
+      'X-CSRF-TOKEN': "{{ csrf_token() }}"
+    },
+    params: {
+      size: 2,
+      width: 4096,
+      height: 4096
+    },
+    success: function (file, response) {
+      $('form').append('<input type="hidden" name="images[]" value="' + response.name + '">')
+      uploadedImageMap[file.name] = response.name
+    },
+    removedfile: function (file) {
+      console.log(file.path)
+      file.previewElement.remove()
+      var name = ''
+      if (typeof file.path !== 'undefined') {
+        name = file.path
+      } else {
+        name = uploadedImageMap[file.name]
+      }
+      $('form').find('input[name="images[]"][value="' + name + '"]').remove()
+    },
+    init: function () {
+@if(isset($userToMonthlyBill) && $userToMonthlyBill->images)
+        var files =
+            {!! json_encode($userToMonthlyBill->images) !!}
+              for (var i in files) {
+              var file = files[i]
+              this.options.addedfile.call(this, file)
+              file.previewElement.classList.add('dz-complete')
+              $('form').append('<input type="hidden" name="images[]" value="' + file.file_name + '">')
+            }
+@endif
+    },
+     error: function (file, response) {
+         if ($.type(response) === 'string') {
+             var message = response //dropzone sends it's own error messages in string
+         } else {
+             var message = response.errors.file
+         }
+         file.previewElement.classList.add('dz-error')
+         _ref = file.previewElement.querySelectorAll('[data-dz-errormessage]')
+         _results = []
+         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+             node = _ref[_i]
+             _results.push(node.textContent = message)
+         }
+
+         return _results
+     }
+}
+</script>
 @endsection
