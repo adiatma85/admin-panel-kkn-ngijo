@@ -8,6 +8,7 @@ trait CheckingScope
 {
     public function checkingScope()
     {
-        
+        // If scope null, return true
+        return Auth::user()->scope_id != null ? false : true;
     }
 }

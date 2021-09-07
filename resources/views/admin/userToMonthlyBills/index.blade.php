@@ -32,6 +32,12 @@
                             {{ trans('cruds.userToMonthlyBill.fields.monthly_bill') }}
                         </th>
                         <th>
+                            {{ trans('cruds.userToMonthlyBill.fields.status_pembayaran') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.userToMonthlyBill.fields.images') }}
+                        </th>
+                        <th>
                             &nbsp;
                         </th>
                     </tr>
@@ -50,6 +56,16 @@
                             </td>
                             <td>
                                 {{ $userToMonthlyBill->monthly_bill->tahun ?? '' }}
+                            </td>
+                            <td>
+                                {{ App\Models\UserToMonthlyBill::STATUS_PEMBAYARAN_SELECT[$userToMonthlyBill->status_pembayaran] ?? '' }}
+                            </td>
+                            <td>
+                                @foreach($userToMonthlyBill->images as $key => $media)
+                                    <a href="{{ $media->getUrl() }}" target="_blank" style="display: inline-block">
+                                        <img src="{{ $media->getUrl('thumb') }}">
+                                    </a>
+                                @endforeach
                             </td>
                             <td>
                                 @can('user_to_monthly_bill_show')
