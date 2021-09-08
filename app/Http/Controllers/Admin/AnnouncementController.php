@@ -145,6 +145,7 @@ class AnnouncementController extends Controller
         $headers .= "From: adiatma86.dec@gmail.com" . "\r\n";
         mail($to,$subject,$txt,$headers);
         //IMPROVE WITH YOUR CREATIVITY and BASED OF PROCESS
+        
     }
 }
  

@@ -172,7 +172,7 @@ class MonthlyBillController extends Controller
         $headers = "MIME-Version: 1.0" . "\r\n"; 
         $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n"; 
         $headers .= "From: adiatma86.dec@gmail.com" . "\r\n";
-        mail($to,$subject,$txt,$headers);
+        mail($to,$subject,$txt,$headers) ;
         //IMPROVE WITH YOUR CREATIVITY and BASED OF PROCESS
     }
 } 
