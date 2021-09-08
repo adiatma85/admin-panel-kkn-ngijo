@@ -8,7 +8,7 @@ use App\Http\Requests\MassDestroyAnnouncementRequest;
 use App\Http\Requests\StoreAnnouncementRequest;
 use App\Http\Requests\UpdateAnnouncementRequest;
 use App\Models\Announcement;
-use Gate;
+use Gate; 
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
@@ -112,8 +112,39 @@ class AnnouncementController extends Controller
     }
 
     // Sending email verification
-    private function sendEmailNotification()
+    private function sendEmailNotification($pengumuman,$date,$nama,$email)
     {
         // Code here @Ibad
+        $nama = '<td>'.$nama.'</td>';
+        $date =  '<td>'.$date.'</td>';
+        $pengumuman =  '<td>'.$pengumuman.'</td>';
+        $to = $email;
+        $subject = "Pengumuman";
+        $txt =' 
+        <html> 
+            <head> 
+                <title>Selamat datang di Aplikasi Iuran Warga</title> 
+            </head> 
+            <body> 
+                <h1>Pengumuman</h1> 
+                <table cellspacing="0" style="border: 2px dashed #FB4314; width: 100%;"> 
+                    <tr> 
+                        <th>Ditujukan ke saudara :</th>'.$nama.'
+                    </tr> 
+                    <tr style="background-color: #e0e0e0;"> 
+                        <th>Pemberitahuan:</th>'.$pengumuman.'
+                    </tr> 
+                    <tr> 
+                        <th>Tanggal:</th>'.$date.'
+                    </tr> 
+                </table> 
+            </body> 
+        </html>';
+        $headers = "MIME-Version: 1.0" . "\r\n"; 
+        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n"; 
+        $headers .= "From: adiatma86.dec@gmail.com" . "\r\n";
+        mail($to,$subject,$txt,$headers);
+        //IMPROVE WITH YOUR CREATIVITY BASED OF PROCESS
     }
 }
+ 

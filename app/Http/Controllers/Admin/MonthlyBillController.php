@@ -142,8 +142,37 @@ class MonthlyBillController extends Controller
     }
 
     // Sending email verification
-    private function sendEmailNotification()
+    private function sendEmailNotification($bulan,$nama,$email)
     {
         // Code here @Ibad
+        $nama = '<td>'.$nama.'</td>';
+        $bulan = '<td>'.$bulan.'</td>';
+        $to = $email;
+        $subject = "Pembayaran Bulanan";
+        $txt =' 
+        <html> 
+            <head> 
+                <title>Selamat datang di Aplikasi Iuran Warga</title> 
+            </head> 
+            <body> 
+                <h1>Pembayaran Iuran Bulanan</h1> 
+                <table cellspacing="0" style="border: 2px dashed #FB4314; width: 100%;"> 
+                    <tr> 
+                        <th>Ditujukan ke saudara :</th>'.$nama.' 
+                    </tr> 
+                    <tr style="background-color: #e0e0e0;"> 
+                        <th>Bulan:</th>'.$bulan.'
+                    </tr>  
+                    <tr> 
+                        <th>Status :</th><td>Terbayar</td> 
+                    </tr> 
+                </table> 
+            </body> 
+        </html>';
+        $headers = "MIME-Version: 1.0" . "\r\n"; 
+        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n"; 
+        $headers .= "From: adiatma86.dec@gmail.com" . "\r\n";
+        mail($to,$subject,$txt,$headers);
+        //IMPROVE WITH YOUR CREATIVITY BASED OF PROCESS
     }
-}
+} 
