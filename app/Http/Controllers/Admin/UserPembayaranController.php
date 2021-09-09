@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\MonthlyBill;
 use App\Models\UserToMonthlyBill;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
+use App\Http\Controllers\Traits\CheckingScope;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Illuminate\Http\Request;
 
@@ -14,14 +15,12 @@ class UserPembayaranController extends Controller
 {
 
     use MediaUploadingTrait;
+    use CheckingScope;
 
     public function index()
     {
-        $user = Auth::user();
-        $scope = $user->scope_id;
-
         // Fetch tagihan sesuai dengan scope
-        $monthlyBills = Auth::user()->scope_id == 0 ?
+        $monthlyBills = $this->checkingScope() ? 
             MonthlyBill::all() :
             MonthlyBill::where('scope_id', Auth::user()->scope_id)->get();
         return view('admin.pembayarans.index', compact('monthlyBills'));
