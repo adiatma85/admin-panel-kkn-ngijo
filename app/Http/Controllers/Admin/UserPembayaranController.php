@@ -21,15 +21,19 @@ class UserPembayaranController extends Controller
         $scope = $user->scope_id;
 
         // Fetch tagihan sesuai dengan scope
-        $monthlyBills = Auth::user()->scope_id != 0 ? MonthlyBill::all() : MonthlyBill::where('scope_id', Auth::user()->scope_id)->get();
-
+        $monthlyBills = Auth::user()->scope_id == 0 ?
+            MonthlyBill::all() :
+            MonthlyBill::where('scope_id', Auth::user()->scope_id)->get();
         return view('admin.pembayarans.index', compact('monthlyBills'));
     }
 
     public function show($monthlyBillId)
     {
         $monthlyBill = MonthlyBill::where('id', $monthlyBillId)->first();
-        
+        $userToMonthlyBill = UserToMonthlyBill::where('user_id', Auth::user()->id)
+            ->where('monthly_bill_id', $monthlyBill->id)
+            ->first();
+        return response()->json(compact('userToMonthlyBill'));
         return view('admin.pembayarans.show', compact('monthlyBill'));
     }
 
@@ -47,7 +51,11 @@ class UserPembayaranController extends Controller
     public function update(Request $request, $monthlyBillId)
     {
         $userMonthlyBill = UserToMonthlyBill::firstOrCreate(
-            ['user_id' => Auth::user()->id, 'monthly_bill_id' => $monthlyBillId]
+            [
+                'status_pembayaran' => UserToMonthlyBill::STATUS_PEMBAYARAN_SELECT['Not Paid'],
+                'user_id' => Auth::user()->id,
+                'monthly_bill_id' => $monthlyBillId,
+            ]
         );
         foreach ($request->input('images') as $image) {
             $userMonthlyBill->addMedia(storage_path('tmp/uploads/' . basename($image)))->toMediaCollection('images');
