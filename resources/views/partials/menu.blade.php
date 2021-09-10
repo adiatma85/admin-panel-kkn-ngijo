@@ -123,7 +123,7 @@
                     </li>
                 @endcan
                 {{-- @can('pembayran_access') --}}
-                <li class="nav-item has-treeview {{ request()->is("admin/pembayarans*") ? "menu-open" : "" }} {{ request()->is("admin/monthly-bill-to-bills*") ? "menu-open" : "" }}">
+                <li class="nav-item has-treeview {{ request()->is("admin/pembayarans*") ? "menu-open" : "" }} {{ request()->is("admin/pembayarans*") ? "menu-open" : "" }}">
                     <a class="nav-link nav-dropdown-toggle" href="#">
                         <i class="fa-fw nav-icon fas fa-credit-card">
 
@@ -136,7 +136,7 @@
                     <ul class="nav nav-treeview">
                         {{-- @can('user_to_monthly_bill_access') --}}
                             <li class="nav-item">
-                                <a href="{{ route("admin.pembayarans.index") }}" class="nav-link {{ request()->is("admin/user-to-monthly-bills") || request()->is("admin/user-to-monthly-bills/*") ? "active" : "" }}">
+                                <a href="{{ route("admin.pembayarans.index") }}" class="nav-link {{ request()->is("admin/pembayarans") || request()->is("admin/pembayarans*") ? "active" : "" }}">
                                     <i class="fa-fw nav-icon fas fa-cogs">
 
                                     </i>

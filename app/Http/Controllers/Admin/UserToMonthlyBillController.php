@@ -19,6 +19,12 @@ class UserToMonthlyBillController extends Controller
 {
     use MediaUploadingTrait;
 
+    public function showIndexing()
+    {
+        // $monthlyBills = 
+        return view('admin.userToMonthlyBills.show-index');
+    }
+
     public function index()
     {
         abort_if(Gate::denies('user_to_monthly_bill_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');

@@ -82,10 +82,16 @@
                             <td>
                                 <div class="row">
                                     <div class="col-6">
-                                        Badge Pembayaran
+                                        @if ($userToMonthlyBill)
+                                            {{ $userToMonthlyBill->status_pembayaran }}
+                                        @else
+                                            Not Paid
+                                        @endif
                                     </div>
                                     <div class="col-6">
-                                        Tanggal Pembayaran kalau ada
+                                        @if ($userToMonthlyBill)
+                                            {{ $userToMonthlyBill->created_at }}    
+                                        @endif
                                     </div>
                                 </div>
                             </td>

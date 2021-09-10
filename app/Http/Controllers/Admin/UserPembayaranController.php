@@ -32,8 +32,7 @@ class UserPembayaranController extends Controller
         $userToMonthlyBill = UserToMonthlyBill::where('user_id', Auth::user()->id)
             ->where('monthly_bill_id', $monthlyBill->id)
             ->first();
-        return response()->json(compact('userToMonthlyBill'));
-        return view('admin.pembayarans.show', compact('monthlyBill'));
+        return view('admin.pembayarans.show', compact('monthlyBill', 'userToMonthlyBill'));
     }
 
     public function edit($monthlyBillId)
