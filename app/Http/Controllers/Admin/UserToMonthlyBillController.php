@@ -27,6 +27,10 @@ class UserToMonthlyBillController extends Controller
 
     public function index()
     {
+    
+
+        // Ditambahi bulan di kolom tampilannya
+
         abort_if(Gate::denies('user_to_monthly_bill_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $userToMonthlyBills = UserToMonthlyBill::with(['user', 'monthly_bill', 'media'])->get();

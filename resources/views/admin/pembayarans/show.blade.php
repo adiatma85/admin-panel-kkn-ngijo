@@ -49,6 +49,8 @@
                     </tr>
                 </tbody>
             </table>
+
+            {{-- In here untuk referensi --}}
             <h2>
                 Detail Iuran-Iuran
             </h2>

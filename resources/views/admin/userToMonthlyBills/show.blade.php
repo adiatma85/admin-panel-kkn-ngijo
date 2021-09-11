@@ -61,6 +61,8 @@
                     </tr>
                 </tbody>
             </table>
+            <h1>Penjelasan detail-detail iuran</h1>
+            <table></table>
             <div class="form-group">
                 <a class="btn btn-default" href="{{ route('admin.user-to-monthly-bills.index') }}">
                     {{ trans('global.back_to_list') }}

@@ -32,6 +32,9 @@
                             {{ trans('cruds.userToMonthlyBill.fields.monthly_bill') }}
                         </th>
                         <th>
+                            Bulan
+                        </th>
+                        <th>
                             {{ trans('cruds.userToMonthlyBill.fields.status_pembayaran') }}
                         </th>
                         <th>
@@ -56,6 +59,9 @@
                             </td>
                             <td>
                                 {{ $userToMonthlyBill->monthly_bill->tahun ?? '' }}
+                            </td>
+                            <td>
+                                Nama bulan dari dataabase
                             </td>
                             <td>
                                 {{ App\Models\UserToMonthlyBill::STATUS_PEMBAYARAN_SELECT[$userToMonthlyBill->status_pembayaran] ?? '' }}
