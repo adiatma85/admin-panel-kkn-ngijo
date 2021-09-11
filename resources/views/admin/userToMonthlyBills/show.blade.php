@@ -44,7 +44,12 @@
                             {{ trans('cruds.userToMonthlyBill.fields.status_pembayaran') }}
                         </th>
                         <td>
-                            {{ App\Models\UserToMonthlyBill::STATUS_PEMBAYARAN_SELECT[$userToMonthlyBill->status_pembayaran] ?? '' }}
+                            <div class="col-md-4">
+                                <select name="" id="" class="form-control">
+                                    <option value="">{{ App\Models\UserToMonthlyBill::STATUS_PEMBAYARAN_SELECT[$userToMonthlyBill->status_pembayaran] ?? '' }}</option>
+                                    <option value="">Paid</option>
+                                </select>
+                            </div>
                         </td>
                     </tr>
                     <tr>
@@ -62,11 +67,56 @@
                 </tbody>
             </table>
             <h1>Penjelasan detail-detail iuran</h1>
-            <table></table>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <th>
+                        Nama iuran
+                    </th>
+                    <th>
+                        Price
+                    </th>
+                    {{-- <th>
+                        Metode Pembayaran
+                    </th> --}}
+                    <th>
+                        Status Pembayaran
+                    </th>
+                </thead>
+                <tbody>
+                    
+                        <tr>
+                            <td>
+                                Nama iuran
+                            </td>
+                            <td>
+                                Rp. Harga iuran
+                            </td>
+                            {{-- <td>
+                                Metode Pembayaran
+                            </td> --}}
+                            <td>
+                                <div class="row">
+                                    <div class="col-6">
+                                        Not Paid
+                                    </div>
+                                    <div class="col-6">
+                                        Created At
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>   
+                </tbody>
+            </table>
             <div class="form-group">
                 <a class="btn btn-default" href="{{ route('admin.user-to-monthly-bills.index') }}">
                     {{ trans('global.back_to_list') }}
                 </a>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-danger" type="submit">
+                    <!-- {{ trans('global.save') }} -->
+                    Save Changes
+                </button>
             </div>
         </div>
     </div>
