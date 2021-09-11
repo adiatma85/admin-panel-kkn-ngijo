@@ -61,7 +61,7 @@
                                 {{ $userToMonthlyBill->monthly_bill->tahun ?? '' }}
                             </td>
                             <td>
-                                Nama bulan dari dataabase
+                                {{$userToMonthlyBill->monthly_bill->bulan ?? ''}}
                             </td>
                             <td>
                                 {{ App\Models\UserToMonthlyBill::STATUS_PEMBAYARAN_SELECT[$userToMonthlyBill->status_pembayaran] ?? '' }}
