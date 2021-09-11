@@ -40,7 +40,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // User To Monthly Bill
     Route::delete('user-to-monthly-bills/destroy', 'UserToMonthlyBillController@massDestroy')->name('user-to-monthly-bills.massDestroy');
     Route::resource('user-to-monthly-bills', 'UserToMonthlyBillController');
+    Route::post('user-to-monthly-bills-edit-status', 'UserToMonthlyBillController@editStatus')->name('user-to-monthly-bills-edit-status');
 
+ 
     // Monthly Bill To Bill
     Route::delete('monthly-bill-to-bills/destroy', 'MonthlyBillToBillController@massDestroy')->name('monthly-bill-to-bills.massDestroy');
     Route::resource('monthly-bill-to-bills', 'MonthlyBillToBillController');
@@ -51,10 +53,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('announcements/ckmedia', 'AnnouncementController@storeCKEditorImages')->name('announcements.storeCKEditorImages');
     Route::resource('announcements', 'AnnouncementController');
 
-    // Scope
+    // Scope 
     Route::delete('scopes/destroy', 'ScopeController@massDestroy')->name('scopes.massDestroy');
     Route::resource('scopes', 'ScopeController');
-
+ 
     // Pembayaran
     Route::post('pembayarans/media', 'UserPembayaranController@storeMedia')->name('pembayarans.storeMedia');
     Route::resource('pembayarans', 'UserPembayaranController');
