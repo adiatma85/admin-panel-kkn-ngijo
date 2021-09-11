@@ -13,7 +13,6 @@
     <div class="card-header">
         {{ trans('cruds.userToMonthlyBill.title_singular') }} {{ trans('global.list') }}
     </div>
-
     <div class="card-body">
         <div class="table-responsive">
             <table class=" table table-bordered table-striped table-hover datatable datatable-UserToMonthlyBill">
@@ -49,9 +48,9 @@
                     @foreach($userToMonthlyBills as $key => $userToMonthlyBill)
                         <tr data-entry-id="{{ $userToMonthlyBill->id }}">
                             <td>
-
+                            
                             </td>
-                            <td>
+                            <td> 
                                 {{ $userToMonthlyBill->id ?? '' }}
                             </td>
                             <td>
@@ -59,13 +58,13 @@
                             </td>
                             <td>
                                 {{ $userToMonthlyBill->monthly_bill->tahun ?? '' }}
+                            </td> 
+                            <td>
+                                {{ $userToMonthlyBill->monthly_bill->bulan ? : '' }}
                             </td>
                             <td>
-                                Nama bulan dari dataabase
-                            </td>
-                            <td>
-                                {{ App\Models\UserToMonthlyBill::STATUS_PEMBAYARAN_SELECT[$userToMonthlyBill->status_pembayaran] ?? '' }}
-                            </td>
+                                {{ $userToMonthlyBill->status_pembayaran ? : '' }}
+                            </td> 
                             <td>
                                 @foreach($userToMonthlyBill->images as $key => $media)
                                     <a href="{{ $media->getUrl() }}" target="_blank" style="display: inline-block">
