@@ -44,7 +44,29 @@
                         {{ trans('cruds.userToMonthlyBill.fields.status_pembayaran') }}
                         </th>
                         <td>
-                        {{ $userToMonthlyBill->status_pembayaran ? : '' }}
+                            @php
+                                $badgeBg = "";
+                                switch ($userToMonthlyBill->status_pembayaran) {
+                                    case 'Not Paid':
+                                        $badgeBg = "danger";
+                                        break;
+
+                                    case 'Not Verified':
+                                        $badgeBg = "warning";
+                                        break;
+
+                                    case 'Verified':
+                                        $badgeBg = "success";
+                                        break;
+
+                                    default:
+                                        $badgeBg = "danger";
+                                        break;
+                                }
+                            @endphp
+                            <span class="badge rounded-pill bg-{{$badgeBg}}">
+                                {{ $userToMonthlyBill->status_pembayaran ? : '' }}
+                            </span>
                         </td>
                     </tr>
                     <tr>
@@ -114,7 +136,11 @@
                             {{-- {{ $bill->bill }} --}}
                             <td>{{ $bill->bill->name ?? "" }}</td>
                             <td>Rp. {{ $bill->bill->price ?? "" }}</td>
-                            <td>{{ $userToMonthlyBill->status_pembayaran ?? "" }}</td>
+                            <td>
+                                <span class="badge rounded-pill bg-{{$badgeBg}}">
+                                    {{ $userToMonthlyBill->status_pembayaran ? : '' }}
+                                </span>
+                            </td>
                             <td>{{ $userToMonthlyBill->created_at ?? "" }}</td>
                         </tr>
                     @endforeach

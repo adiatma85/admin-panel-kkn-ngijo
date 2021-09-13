@@ -63,7 +63,29 @@
                                 {{ $userToMonthlyBill->monthly_bill->bulan ? : '' }}
                             </td>
                             <td>
-                                {{ $userToMonthlyBill->status_pembayaran ? : '' }}
+                                @php
+                                $badgeBg = "";
+                                switch ($userToMonthlyBill->status_pembayaran) {
+                                    case 'Not Paid':
+                                        $badgeBg = "danger";
+                                        break;
+
+                                    case 'Not Verified':
+                                        $badgeBg = "warning";
+                                        break;
+
+                                    case 'Verified':
+                                        $badgeBg = "success";
+                                        break;
+
+                                    default:
+                                        $badgeBg = "danger";
+                                        break;
+                                }
+                            @endphp
+                                <span class="badge rounded-pill bg-{{$badgeBg}}">
+                                    {{ $userToMonthlyBill->status_pembayaran ? : '' }}
+                                </span>
                             </td> 
                             <td>
                                 @foreach($userToMonthlyBill->images as $key => $media)
