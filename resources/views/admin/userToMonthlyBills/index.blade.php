@@ -70,7 +70,7 @@
                                         $badgeBg = "danger";
                                         break;
 
-                                    case 'Not Verified':
+                                    case 'Paid':
                                         $badgeBg = "warning";
                                         break;
 

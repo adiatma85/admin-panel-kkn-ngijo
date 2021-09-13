@@ -50,13 +50,23 @@ class UserPembayaranController extends Controller
     {
         $userMonthlyBill = UserToMonthlyBill::firstOrCreate(
             [
-                'status_pembayaran' => UserToMonthlyBill::STATUS_PEMBAYARAN_SELECT['Not Paid'],
+                'status_pembayaran' => UserToMonthlyBill::STATUS_PEMBAYARAN_SELECT['Paid'],
                 'user_id' => Auth::user()->id,
                 'monthly_bill_id' => $monthlyBillId,
             ]
         );
+        if (count($userMonthlyBill->images) > 0) {
+            foreach ($userMonthlyBill->images as $media) {
+                if (!in_array($media->file_name, $request->input('images', []))) {
+                    $media->delete();
+                }
+            }
+        }
+        $media = $userMonthlyBill->images->pluck('file_name')->toArray();
         foreach ($request->input('images') as $image) {
-            $userMonthlyBill->addMedia(storage_path('tmp/uploads/' . basename($image)))->toMediaCollection('images');
+            if (count($media) === 0 || !in_array($image, $media)) {
+                $userMonthlyBill->addMedia(storage_path('tmp/uploads/' . basename($image)))->toMediaCollection('images');
+            }
         }
         return redirect()->route('admin.pembayarans.index');
     }
