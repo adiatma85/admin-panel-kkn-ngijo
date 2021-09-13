@@ -143,6 +143,7 @@ return [
             'status_pembayaran_helper' => ' ',
             'images'                   => 'Images',
             'images_helper'            => ' ',
+            'edit_status_pembayaran'   => "Edit status pembayaran",
         ],
     ],
     'monthlyBillToBill' => [

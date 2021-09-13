@@ -36,7 +36,7 @@
                             {{ trans('cruds.userToMonthlyBill.fields.monthly_bill') }}
                         </th>
                         <td>
-                          {{ $userToMonthlyBill->monthly_bill->bulan ? : '' }}
+                          {{ $userToMonthlyBill->monthly_bill->bulan ? : '' }} {{ $userToMonthlyBill->monthly_bill->tahun ? : '' }}
                         </td>
                     </tr>
                     <tr>
@@ -49,17 +49,17 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ 'edit status pembayaran' }}
+                            {{ trans('cruds.userToMonthlyBill.fields.edit_status_pembayaran') }}
                         </th>
                         <td>
                             <form method="POST" action="{{ url('admin/user-to-monthly-bills-edit-status') }}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
                                     <input name="id" type="hidden" value="{{$userToMonthlyBill->id}}">
-                                    <select class="form-control select2" name="status_pembayaran" id="status_pembayaran">           
-                                            <option value="Not paid">Not paid</option>
-                                            <option value="Not verified">Not verified</option>
-                                            <option value="Verified">Verified</option>
+                                    <select class="form-control select2" name="status_pembayaran" id="status_pembayaran">
+                                            <option value="Not paid" {{ $userToMonthlyBill->status_pembayaran == "Not Paid" ? "selected" : "" }}>Not paid</option>
+                                            <option value="Not verified {{ $userToMonthlyBill->status_pembayaran == "Not Verified" ? "selected" : "" }}">Not verified</option>
+                                            <option value="Verified" {{ $userToMonthlyBill->status_pembayaran == "Verified" ? "selected" : "" }}>Verified</option>
                                     </select>
                                 </div>
                                 
@@ -90,29 +90,34 @@
             </h2>
             <table class="table table-bordered table-striped">
                 <thead>
-                    <th>
-                      Bulan
-                    </th>
-                    <th>
-                       Nama
-                    </th>
-                
-                    <th>
-                        Status Pembayaran
-                    </th>
+                    <thead>
+                        <th>
+                            Nama iuran
+                        </th>
+                        <th>
+                            Price
+                        </th>
+                        {{-- <th>
+                            Metode Pembayaran
+                        </th> --}}
+                        <th>
+                            Status Pembayaran
+                        </th>
+                        <th>
+                            Tanggal Pembayaran
+                        </th>
                 </thead>
                 <tbody>
+                    @foreach ($userToMonthlyBill->monthly_bill->monthlyBilltoBill as $bill)
+                    
                         <tr>
-                            <td>
-                            {{ $userToMonthlyBill->monthly_bill->bulan ? : '' }}
-                            </td>
-                            <td>
-                            {{$userToMonthlyBill->user->name}}
-                            </td>
-                            <td>
-                            {{ $userToMonthlyBill->status_pembayaran ? : '' }}
-                            </td>
-                        </tr>                       
+                            {{-- {{ $bill->bill }} --}}
+                            <td>{{ $bill->bill->name ?? "" }}</td>
+                            <td>Rp. {{ $bill->bill->price ?? "" }}</td>
+                            <td>{{ $userToMonthlyBill->status_pembayaran ?? "" }}</td>
+                            <td>{{ $userToMonthlyBill->created_at ?? "" }}</td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
             <div class="form-group">

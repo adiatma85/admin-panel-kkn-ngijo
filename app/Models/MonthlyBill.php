@@ -85,11 +85,8 @@ class MonthlyBill extends Model
         $query = $this->query()
             ->join('monthly_bill_to_bills', 'monthly_bill_to_bills.id', '=', 'monthly_bills.id')
             ->join('bills', 'bills.id', '=', 'monthly_bill_to_bills.bill_id')
-            // ->where('monthly_bills.id', '=', $this->id)
             ->where('monthly_bill_to_bills.deleted_at', '=', null)
             ->where('bills.deleted_at', '=', null)
-            // ->select('bills.id')
-            // ->select('bills.name')
             ->get();
         return $query;
     }
