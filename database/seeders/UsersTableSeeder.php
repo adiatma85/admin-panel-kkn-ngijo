@@ -29,7 +29,7 @@ class UsersTableSeeder extends Seeder
             [
                 'id'             => 3,
                 'name'           => 'Admin Randuagung 1',
-                'email'          => 'randugaung1@adminc.com',
+                'email'          => 'randuagung1@admin.com',
                 'password'       => bcrypt('randuagung1'),
                 'remember_token' => null,
                 'scope_id'       => 2,
@@ -45,7 +45,7 @@ class UsersTableSeeder extends Seeder
             [
                 'id'             => 5,
                 'name'           => 'User Randuagung 1',
-                'email'          => 'randugaung1@user.com',
+                'email'          => 'randuagung1@user.com',
                 'password'       => bcrypt('randuagung1'),
                 'remember_token' => null,
                 'scope_id'       => 2,

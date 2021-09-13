@@ -122,7 +122,7 @@
                         </ul>
                     </li>
                 @endcan
-                {{-- @can('pembayran_access') --}}
+                @can('pembayaran_access')
                 <li class="nav-item has-treeview {{ request()->is("admin/pembayarans*") ? "menu-open" : "" }} {{ request()->is("admin/pembayarans*") ? "menu-open" : "" }}">
                     <a class="nav-link nav-dropdown-toggle" href="#">
                         <i class="fa-fw nav-icon fas fa-credit-card">
@@ -146,7 +146,7 @@
                                     </p>
                                 </a>
                             </li>
-                        {{-- @endcan --}}
+                        @endcan
                     </ul>
                 </li>
                 {{-- @endcan --}}
