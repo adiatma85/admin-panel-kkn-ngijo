@@ -9,7 +9,7 @@ Route::get('/home', function () {
     if (session('status')) {
         return redirect()->route('admin.home')->with('status', session('status'));
     }
-
+ 
     return redirect()->route('admin.home');
 });
 
@@ -60,6 +60,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Pembayaran
     Route::post('pembayarans/media', 'UserPembayaranController@storeMedia')->name('pembayarans.storeMedia');
     Route::resource('pembayarans', 'UserPembayaranController');
+    Route::post('pembayarans-edit-metode', 'UserPembayaranController@editMetode');
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
     // Change password

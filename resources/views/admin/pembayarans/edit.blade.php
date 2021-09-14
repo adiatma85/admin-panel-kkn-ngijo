@@ -43,8 +43,39 @@
                         <th>
                             {{ trans('cruds.monthlyBill.fields.bulan') }}
                         </th>
-                        <td>
+                        <td> 
                             {{ App\Models\MonthlyBill::BULAN_SELECT[$monthlyBill->bulan] ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ 'Metode Pembayaran' }}
+                        </th>
+                        <td>
+                            {{ $userToMonthlyBill->metode_pembayaran }}
+                        </td>
+                    </tr> 
+                    <tr>
+                        <th>
+                            {{ 'Edit Metode Pembayaran' }}
+                        </th>
+                        <td>
+                        <form method="POST" action="{{ url('admin/pembayarans-edit-metode') }}" enctype="multipart/form-data">
+                                @csrf
+                                <div class="form-group">
+                                    <input name="id" type="hidden" value="{{$userToMonthlyBill->id}}">
+                                    <select class="form-control select2" name="metode_pembayaran" id="metode_pembayaran">
+                                            <option value="Transfer">Transfer</option>
+                                            <option value="Kontan">Kontan</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <button class="btn btn-danger" type="submit">
+                                        Simpan
+                                    </button>
+                                </div>
+                            </form>
                         </td>
                     </tr>
                 </tbody>

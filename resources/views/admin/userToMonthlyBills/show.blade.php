@@ -119,9 +119,9 @@
                         <th>
                             Price
                         </th>
-                        {{-- <th>
+                        <th>
                             Metode Pembayaran
-                        </th> --}}
+                        </th> 
                         <th>
                             Status Pembayaran
                         </th>
@@ -136,6 +136,7 @@
                             {{-- {{ $bill->bill }} --}}
                             <td>{{ $bill->bill->name ?? "" }}</td>
                             <td>Rp. {{ $bill->bill->price ?? "" }}</td>
+                            <td>{{$userToMonthlyBill->metode_pembayaran}}</td>
                             <td>
                                 <span class="badge rounded-pill bg-{{$badgeBg}}">
                                     {{ $userToMonthlyBill->status_pembayaran ? : '' }}

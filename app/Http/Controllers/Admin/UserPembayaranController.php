@@ -71,5 +71,12 @@ class UserPembayaranController extends Controller
         return redirect()->route('admin.pembayarans.index');
     }
 
+    public function editMetode(Request $request)
+    {
+        UserToMonthlyBill::where('id',$request->id)->update(['metode_pembayaran' => $request->metode_pembayaran]);
+        return redirect()->route('admin.pembayarans.index');
+    }
+  
     // no delete function in this group
 }
+  
