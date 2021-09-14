@@ -41,6 +41,14 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.bill.fields.scope') }} 
+                        </th>
+                        <td>
+                            {{ $announcement->scope->name ? "" }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.announcement.fields.attachment') }}
                         </th>
                         <td>

@@ -29,6 +29,12 @@
                             {{ trans('cruds.announcement.fields.tittle') }}
                         </th>
                         <th>
+                            {{ trans('cruds.announcement.fields.content') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.bill.fields.scope') }}
+                        </th>
+                        <th>
                             &nbsp;
                         </th>
                     </tr>
@@ -44,6 +50,17 @@
                             </td>
                             <td>
                                 {{ $announcement->tittle ?? '' }}
+                            </td>
+                            <td>
+                                {!! 
+                                    strLen($announcement->content) > 20 ? 
+                                        substr($announcement->content, 0, 21)
+                                    :
+                                        $announcement->content ?? ""
+                                    !!}
+                            </td>
+                            <td>
+                                {{ $announcement->scope->name ?? "" }}
                             </td>
                             <td>
                                 @can('announcement_show')

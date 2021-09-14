@@ -34,6 +34,24 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.announcement.fields.attachment_helper') }}</span>
             </div>
+            {{-- Scope --}}
+            @if (Auth::user()->scope_id != null)
+                <input type="hidden" name="scope_id" value="{{Auth::user()->scope_id}}">
+            @else
+                <div class="form-group">
+                    <label for="scope_id" class="required">{{ trans('cruds.bill.fields.scope') }}</label>
+                    <select class="form-control {{ $errors->has('scope') ? 'is-invalid' : '' }}" name="scope_id" id="scope_id" required>
+                        <option value disabled {{ old('scope_id', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
+                        @foreach($scopes as $scope)
+                            <option value="{{ $scope->id }}" {{ old('scope_id', '') === (string) $scope->id ? 'selected' : '' }}>{{ $scope->name }}</option>
+                        @endforeach
+                    </select>
+                    @if($errors->has('scope_id'))
+                        <span class="text-danger">{{ $errors->first('scope_id') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.bill.fields.scope_helper') }}</span>
+                </div>
+            @endif
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
