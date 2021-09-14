@@ -34,7 +34,41 @@ class PermissionRoleTableSeeder extends Seeder
         $scopedUser = $notMasterAdmin->filter(function ($permission) {
             // List of conditions
             $notUserManagement = substr($permission->title, 0, 5) != 'user_';
-            return $notUserManagement;
+            // Non Announecement create, edit, or delete
+            $notAnnouncemenetCreate = $permission->title != "announcement_create";
+            $notAnnouncemenetEdit = $permission->title != "announcement_edit";
+            $notAnnouncemenetDelete = $permission->title != "announcement_delete";
+            // Non UserToMonthlyBill
+            $notUserToMonthlyBillCreate = $permission->title != "user_to_monthly_bill_create";
+            $notUserToMonthlyBillEdit = $permission->title != "user_to_monthly_bill_edit";
+            $notUserToMonthlyBillDelete = $permission->title != "user_to_monthly_bill_delete";
+            // Non Misc Access
+            $notMiscAccess = $permission->title != "misc_access";
+            // Not MonthlyBill Create Edit and Delete
+            $notMonthlyBillCreate = $permission->title != "monthly_bill_create";
+            $notMonthlyBillEdit = $permission->title != "monthly_bill_edit";
+            $notMonthlyBillDelete = $permission->title != "monthly_bill_delete";
+            // Non Bill create edit or delete
+            $notBillCreate = $permission->title != "bill_create";
+            $notBillEdit = $permission->title != "bill_edit";
+            $notBillDelete = $permission->title != "bill_delete";
+
+            // Return filtered permission
+            return $notUserManagement
+                && $notAnnouncemenetCreate
+                && $notAnnouncemenetEdit
+                && $notAnnouncemenetDelete
+                && $notUserToMonthlyBillCreate
+                && $notUserToMonthlyBillEdit
+                && $notUserToMonthlyBillDelete
+                && $notMiscAccess
+                && $notMonthlyBillCreate
+                && $notMonthlyBillEdit
+                && $notMonthlyBillDelete
+                && $notBillCreate
+                && $notBillEdit
+                && $notBillDelete
+            ;
         });
 
         Role::findOrFail(2)->permissions()->sync($user_permissions);

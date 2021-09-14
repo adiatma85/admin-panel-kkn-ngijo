@@ -22,6 +22,11 @@ class UserToMonthlyBill extends Model implements HasMedia
         'Verified' => 'Verifed',
     ];
 
+    public const METODE_PEMBAYARAN_SELECT = [
+        'Kontan'  => "Kontan",
+        "Transfer" => "Transfer",
+    ];
+
     public $table = 'user_to_monthly_bills';
 
     protected $appends = [
@@ -38,6 +43,7 @@ class UserToMonthlyBill extends Model implements HasMedia
         'user_id',
         'monthly_bill_id',
         'status_pembayaran',
+        'metode_pembayaran',
         'created_at',
         'updated_at',
         'deleted_at',
