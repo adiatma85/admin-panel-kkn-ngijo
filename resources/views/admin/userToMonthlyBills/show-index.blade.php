@@ -1,1 +1,0 @@
-<h1>Showing index</h1>

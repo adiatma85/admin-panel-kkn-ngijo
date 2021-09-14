@@ -34,9 +34,11 @@
                         <th>
                             {{ trans('cruds.bill.fields.price') }}
                         </th>
-                        <th>
-                            {{ trans('cruds.bill.fields.scope') }}
-                        </th>
+                        @if (Auth::user()->scope_id != null)    
+                            <th>
+                                {{ trans('cruds.bill.fields.scope') }}
+                            </th>
+                        @endif
                         <th>
                             &nbsp;
                         </th>
@@ -60,9 +62,11 @@
                             <td>
                                 {{ $bill->price ?? '' }}
                             </td>
-                            <td>
-                                {{ $bill->scope->name ?? "" }}
-                            </td>
+                            @if (Auth::user()->scope_id != null)    
+                                <td>
+                                    {{ $bill->scope->name ?? "" }}
+                                </td>
+                            @endif
                             <td>
                                 @can('bill_show')
                                     <a class="btn btn-xs btn-primary" href="{{ route('admin.bills.show', $bill->id) }}">

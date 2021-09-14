@@ -31,6 +31,11 @@
                         <th>
                             {{ trans('cruds.monthlyBill.fields.bulan') }}
                         </th>
+                        @if (Auth::user()->scope_id != null)    
+                            <th>
+                                {{ trans('cruds.bill.fields.scope') }}
+                            </th>
+                        @endif
                         <th>
                             &nbsp;
                         </th>
@@ -51,6 +56,11 @@
                             <td>
                                 {{ App\Models\MonthlyBill::BULAN_SELECT[$monthlyBill->bulan] ?? '' }}
                             </td>
+                            @if (Auth::user()->scope_id != null)    
+                                <td>
+                                    {{ $monthlyBill->scope->name ?? "" }}
+                                </td>
+                            @endif
                             <td>
                                 @can('monthly_bill_show')
                                     <a class="btn btn-xs btn-primary" href="{{ route('admin.monthly-bills.show', $monthlyBill->id) }}">

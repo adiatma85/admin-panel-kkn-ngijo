@@ -39,14 +39,16 @@
                             {!! $announcement->content !!}
                         </td>
                     </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.bill.fields.scope') }} 
-                        </th>
-                        <td>
-                            {{ $announcement->scope->name ? "" }}
-                        </td>
-                    </tr>
+                    @if (Auth::user()->scope_id != null)    
+                        <tr>
+                            <th>
+                                {{ trans('cruds.bill.fields.scope') }} 
+                            </th>
+                            <td>
+                                {{ $announcement->scope->name ? "" }}
+                            </td>
+                        </tr>
+                    @endif
                     <tr>
                         <th>
                             {{ trans('cruds.announcement.fields.attachment') }}

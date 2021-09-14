@@ -47,14 +47,16 @@
                             {{ $bill->price }}
                         </td>
                     </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.bill.fields.scope') }}
-                        </th>
-                        <td>
-                            {{ $bill->scope->name ?? "" }}
-                        </td>
-                    </tr>
+                    @if (Auth::user()->scope_id != null)
+                        <tr>
+                            <th>
+                                {{ trans('cruds.bill.fields.scope') }}
+                            </th>
+                            <td>
+                                {{ $bill->scope->name ?? "" }}
+                            </td>
+                        </tr>
+                    @endif
                 </tbody>
             </table>
             <div class="form-group">

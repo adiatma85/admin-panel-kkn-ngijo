@@ -41,6 +41,14 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.bills.fields.scope') }}
+                        </th>
+                        <td>
+                            {{ $monthlyBill->scope->name ?? "" }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.monthlyBill.fields.iuran') }}
                         </th>
                         <td>

@@ -31,9 +31,11 @@
                         <th>
                             {{ trans('cruds.announcement.fields.content') }}
                         </th>
-                        <th>
-                            {{ trans('cruds.bill.fields.scope') }}
-                        </th>
+                        @if (Auth::user()->scope_id != null)    
+                            <th>
+                                {{ trans('cruds.bill.fields.scope') }}
+                            </th>
+                        @endif
                         <th>
                             &nbsp;
                         </th>
@@ -59,9 +61,11 @@
                                         $announcement->content ?? ""
                                     !!}
                             </td>
-                            <td>
-                                {{ $announcement->scope->name ?? "" }}
-                            </td>
+                            @if (Auth::user()->scope_id != null)                                
+                                <td>
+                                    {{ $announcement->scope->name ?? "" }}
+                                </td>
+                            @endif
                             <td>
                                 @can('announcement_show')
                                     <a class="btn btn-xs btn-primary" href="{{ route('admin.announcements.show', $announcement->id) }}">
