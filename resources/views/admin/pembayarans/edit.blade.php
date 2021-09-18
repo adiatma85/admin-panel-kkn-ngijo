@@ -52,7 +52,7 @@
                             {{ 'Metode Pembayaran' }}
                         </th>
                         <td>
-                            {{ $userToMonthlyBill->metode_pembayaran }}
+                            {{ $userToMonthlyBill->metode_pembayaran ?? "" }}
                         </td>
                     </tr> 
                     <tr>
