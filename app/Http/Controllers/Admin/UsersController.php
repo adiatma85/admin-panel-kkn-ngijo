@@ -8,17 +8,22 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\Role;
 use App\Models\User;
+use App\Http\Controllers\Traits\CheckingScope;
+use Illuminate\Support\Facades\Auth;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class UsersController extends Controller
 {
+
+    use CheckingScope;
+
     public function index()
     {
         abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $users = User::with(['roles'])->get();
+        $users = $this->checkingScope() ? User::with(['roles'])->get() : User::where('scope_id', Auth::user()->scope_id)->with(['roles'])->get();
 
         return view('admin.users.index', compact('users'));
     }
@@ -27,7 +32,7 @@ class UsersController extends Controller
     {
         abort_if(Gate::denies('user_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $roles = Role::pluck('title', 'id');
+        $roles = $this->checkingScope() ? Role::pluck('title', 'id') : Role::where('scope_id', Auth::user()->scope_id)->pluck('title', 'id');
 
         return view('admin.users.create', compact('roles'));
     }
@@ -47,7 +52,7 @@ class UsersController extends Controller
     {
         abort_if(Gate::denies('user_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $roles = Role::pluck('title', 'id');
+        $roles = $this->checkingScope() ? Role::pluck('title', 'id') : Role::where('scope_id', Auth::user()->scope_id)->pluck('title', 'id');
 
         $user->load('roles');
 
