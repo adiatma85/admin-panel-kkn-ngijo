@@ -45,7 +45,8 @@
                                 {{ trans('cruds.bill.fields.scope') }} 
                             </th>
                             <td>
-                                {{ $announcement->scope->name ? "" }}
+                                {{-- Masukan, kayaknya lebih enak kalau pengumumannya dibentuk seperti article???? --}}
+                                {{ $announcement->scope->name ?? "" }}
                             </td>
                         </tr>
                     @endif
@@ -63,11 +64,6 @@
                     </tr>
                 </tbody>
             </table>
-            <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.announcements.index') }}">
-                    {{ trans('global.back_to_list') }}
-                </a>
-            </div>
         </div>
     </div>
 </div>
