@@ -50,7 +50,6 @@
                 </tbody>
             </table>
 
-            {{-- In here untuk referensi --}}
             <h2>
                 Detail Iuran-Iuran
             </h2>
@@ -85,9 +84,32 @@
                                 <div class="row">
                                     <div class="col-6">
                                         @if ($userToMonthlyBill)
-                                            {{ $userToMonthlyBill->status_pembayaran }}
+                                            @php
+                                                switch ($userToMonthlyBill->status_pembayaran) {
+                                                    case 'Not Paid':
+                                                        $badgeLabel = "danger";
+                                                        break;
+
+                                                    case 'Paid':
+                                                        $badgeLabel = "warning";
+                                                        break;
+
+                                                    case 'Verified':
+                                                        $badgeLabel = "success";
+                                                        break;
+                                                    
+                                                    default:
+                                                        $badgeLabel = "danger";
+                                                        break;
+                                                }    
+                                            @endphp
+                                            <span class="badge rounded-pill bg-{{$badgeLabel}}">
+                                                {{ $userToMonthlyBill->status_pembayaran }}
+                                            </span>
                                         @else
-                                            Not Paid
+                                            <span class="badge rounded-pill bg-danger">
+                                                Not Paid
+                                            </span>
                                         @endif
                                     </div>
                                     <div class="col-6">
@@ -101,6 +123,14 @@
                     @endforeach
                 </tbody>
             </table>
+            <h2>Bukti Transaksi</h2>
+                <div class="row">
+                    @foreach ($userToMonthlyBill->images as $image)
+                        <div class="col">
+                            <img src="{{$image->url}}" alt="">
+                        </div>
+                    @endforeach
+                </div>
             <div class="form-group">
                 <a class="btn btn-default" href="{{ route('admin.monthly-bills.index') }}">
                     {{ trans('global.back_to_list') }}

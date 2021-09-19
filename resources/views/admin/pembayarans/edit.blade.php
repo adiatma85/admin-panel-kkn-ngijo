@@ -49,35 +49,16 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ 'Metode Pembayaran' }}
+                            {{ trans('cruds.pembayarans.fields.metode_pembayaran') }}
                         </th>
                         <td>
-                            {{ $userToMonthlyBill->metode_pembayaran ?? "" }}
+                            @if ($userToMonthlyBill)
+                                {{ $userToMonthlyBill->metode_pembayaran ?? "" }}
+                            @else
+                                -
+                            @endif
                         </td>
                     </tr> 
-                    <tr>
-                        <th>
-                            {{ 'Edit Metode Pembayaran' }}
-                        </th>
-                        <td>
-                        <form method="POST" action="{{ url('admin/pembayarans-edit-metode') }}" enctype="multipart/form-data">
-                                @csrf
-                                <div class="form-group">
-                                    <input name="id" type="hidden" value="{{$userToMonthlyBill->id}}">
-                                    <select class="form-control select2" name="metode_pembayaran" id="metode_pembayaran">
-                                            <option value="Transfer">Transfer</option>
-                                            <option value="Kontan">Kontan</option>
-                                    </select>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <button class="btn btn-danger" type="submit">
-                                        Simpan
-                                    </button>
-                                </div>
-                            </form>
-                        </td>
-                    </tr>
                 </tbody>
             </table>
             <h2>
@@ -117,7 +98,7 @@
                                         @if ($userToMonthlyBill)
                                             {{ $userToMonthlyBill->status_pembayaran }}
                                         @else
-                                            Not Paid
+                                            Belum Membayar
                                         @endif
                                     </div>
                                     <div class="col-6">
@@ -136,6 +117,19 @@
             @method('PUT')
             @csrf
             {{-- Foto --}}
+            <div class="form-group">
+                <label class="required">{{ trans('cruds.pembayarans.fields.metode_pembayaran') }}</label>
+                <select class="form-control {{ $errors->has('metode_pembayaran') ? 'is-invalid' : '' }} select2" name="metode_pembayaran" id="metode_pembayaran" required>
+                    <option value disabled {{ old('metode_pembayaran', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
+                    @foreach(App\Models\UserToMonthlyBill::METODE_PEMBAYARAN_SELECT as $key => $label)
+                        <option value="{{ $key }}" {{ old('metode_pembayaran', '') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('metode_pembayaran'))
+                    <span class="text-danger">{{ $errors->first('metode_pembayaran') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.pembayarans.fields.metode_pembayaran_helper') }}</span>
+            </div>
             <div class="form-group">
                 <label class="required" for="image">{{ trans('cruds.pembayarans.fields.image') }}</label>
                 <div class="needsclick dropzone {{ $errors->has('image') ? 'is-invalid' : '' }}" id="image-dropzone">

@@ -41,6 +41,7 @@ class UserPembayaranController extends Controller
         $userToMonthlyBill = UserToMonthlyBill::where('monthly_bill_id', $monthlyBill->id)
             ->where('user_id', Auth::user()->id)
             ->first();
+        // return response()->json(compact('userToMonthlyBill'));
         return view('admin.pembayarans.edit', compact('monthlyBill', 'userToMonthlyBill'));
     }
 
@@ -48,11 +49,17 @@ class UserPembayaranController extends Controller
     // Special case for storing the data
     public function update(Request $request, $monthlyBillId)
     {
+        // return response()->json([
+        //     'metode_pembayaran' => $request->input('metode_pembayaran'),
+        // ]);
         $userMonthlyBill = UserToMonthlyBill::firstOrCreate(
             [
-                'status_pembayaran' => UserToMonthlyBill::STATUS_PEMBAYARAN_SELECT['Paid'],
                 'user_id' => Auth::user()->id,
                 'monthly_bill_id' => $monthlyBillId,
+            ],
+            [
+                'status_pembayaran' => UserToMonthlyBill::STATUS_PEMBAYARAN_SELECT['Paid'],
+                'metode_pembayaran' => $request->input('metode_pembayaran'),
             ]
         );
         if (count($userMonthlyBill->images) > 0) {

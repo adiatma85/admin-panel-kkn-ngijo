@@ -57,9 +57,30 @@
                                 // Jika mana sudah membayar
                                     if ($isPaidOrNot->exists()) {
                                         $obj = $isPaidOrNot->first();
+                                        switch ($obj->status_pembayaran) {
+                                            case 'Not Paid':
+                                                $badgeLabel = "danger";
+                                            break;
+
+                                            case 'Paid':
+                                                $badgeLabel = "warning";
+                                            break;
+
+                                            case 'Verified':
+                                                $badgeLabel = "success";
+                                            break;
+                                                    
+                                            default:
+                                                $badgeLabel = "danger";
+                                            break;
+                                        }
+                                    } else {
+                                        $badgeLabel = "danger";
                                     }
                                 @endphp
-                                {{ $isPaidOrNot->exists() ? $obj->status_pembayaran : "Not Paid" }}
+                                <span class="badge rounded-pill bg-{{$badgeLabel}}">
+                                    {{ $isPaidOrNot->exists() ? $obj->status_pembayaran : "Not Paid" }}
+                                </span>
                             </td>
                             <td>
                                 {{-- Action --}}

@@ -228,6 +228,8 @@ return [
             'scope_helper'      => " ",
             'image'             => "Foto Bukti Transaksi",
             "image_helper"      => " ",
+            "metode_pembayaran"    => "Metode Pembayaran",
+            "metode_pembayaran_helper" => " ",
             
         ],
     ],
