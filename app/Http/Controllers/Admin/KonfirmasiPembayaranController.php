@@ -38,6 +38,19 @@ class KonfirmasiPembayaranController extends Controller
     {
         abort_if(Gate::denies('user_to_monthly_bill_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        // $users = $this->checkingScope() ? 
+        //     User::with(['roles', 'itemPembayaran'])
+        //         ->get() : 
+        //     User::where('scope_id', Auth::user()->scope_id)
+        //         ->with(['roles', 'itemPembayaran'])
+        //         ->get();
+        // $tryWithJoin = new User();
+        // $tryWithJoin = $tryWithJoin->joinKonfirmasiPembayaran($monthlyBill_Id);
+        // return response()->json([
+        //     // 'users' => $users,
+        //     'withJoin' => $tryWithJoin,
+        // ]);
+
         $userToMonthlyBills = UserToMonthlyBill::where('monthly_bill_id', $monthlyBill_Id)
             ->with(['user', 'monthly_bill', 'media'])
             ->get();
