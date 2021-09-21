@@ -38,9 +38,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('monthly-bills', 'MonthlyBillController');
 
     // User To Monthly Bill
-    Route::delete('user-to-monthly-bills/destroy', 'UserToMonthlyBillController@massDestroy')->name('user-to-monthly-bills.massDestroy');
+    Route::delete('konfirmasi-pembayaran/destroy', 'UserToMonthlyBillController@massDestroy')->name('konfirmasi-pembayaran.massDestroy');
     Route::get('index-detail-pembayaran/{monthlyBill_Id}', 'UserToMonthlyBillController@detailed_index')->name('index-detail-pembayaran');
-    Route::resource('user-to-monthly-bills', 'UserToMonthlyBillController');
+    Route::post('konfirmasi-pembayaran/media', 'UserToMonthlyBillControllerr@storeMedia')->name('konfirmasi-pembayaran.storeMedia');
+    Route::resource('konfirmasi-pembayaran', 'UserToMonthlyBillController');
     Route::post('user-to-monthly-bills-edit-status', 'UserToMonthlyBillController@editStatus')->name('user-to-monthly-bills-edit-status');
 
  

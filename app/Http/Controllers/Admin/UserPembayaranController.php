@@ -49,9 +49,6 @@ class UserPembayaranController extends Controller
     // Special case for storing the data
     public function update(Request $request, $monthlyBillId)
     {
-        // return response()->json([
-        //     'metode_pembayaran' => $request->input('metode_pembayaran'),
-        // ]);
         $userMonthlyBill = UserToMonthlyBill::firstOrCreate(
             [
                 'user_id' => Auth::user()->id,

@@ -76,9 +76,11 @@ class UserToMonthlyBillController extends Controller
         return redirect()->route('admin.user-to-monthly-bills.index');
     }
 
-    public function edit(UserToMonthlyBill $userToMonthlyBill)
+    public function edit($userToMonthlyBillId)
     {
         abort_if(Gate::denies('user_to_monthly_bill_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $userToMonthlyBill = UserToMonthlyBill::findOrFail($userToMonthlyBillId);
 
         $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
@@ -110,18 +112,22 @@ class UserToMonthlyBillController extends Controller
         return redirect()->route('admin.user-to-monthly-bills.index');
     }
 
-    public function show(UserToMonthlyBill $userToMonthlyBill)
+    public function show($userToMonthlyBillId)
     {
         abort_if(Gate::denies('user_to_monthly_bill_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $userToMonthlyBill = UserToMonthlyBill::findOrFail($userToMonthlyBillId);
 
         $userToMonthlyBill->load('user', 'monthly_bill');
 
         return view('admin.userToMonthlyBills.show', compact('userToMonthlyBill'));
     }
 
-    public function destroy(UserToMonthlyBill $userToMonthlyBill)
+    public function destroy($userToMonthlyBillId)
     {
         abort_if(Gate::denies('user_to_monthly_bill_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $userToMonthlyBill = UserToMonthlyBill::where('id', $userToMonthlyBillId);
 
         $userToMonthlyBill->delete();
 

@@ -1,14 +1,5 @@
 @extends('layouts.admin')
 @section('content')
-@can('monthly_bill_create')
-    <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route('admin.monthly-bills.create') }}">
-                {{ trans('global.add') }} {{ trans('cruds.monthlyBill.title_singular') }}
-            </a>
-        </div>
-    </div>
-@endcan
 <div class="card">
     <div class="card-header">
         {{ trans('cruds.monthlyBill.title_singular') }} {{ trans('global.list') }}
@@ -90,7 +81,7 @@
   let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
   let deleteButton = {
     text: deleteButtonTrans,
-    url: "{{ route('admin.monthly-bills.massDestroy') }}",
+    url: "{{ route('admin.konfirmasi-pembayaran.massDestroy') }}",
     className: 'btn-danger',
     action: function (e, dt, node, config) {
       var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
