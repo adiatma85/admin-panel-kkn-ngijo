@@ -46,9 +46,6 @@
                             <td>
 
                             </td>
-                            <!--<td>
-                                {{ $monthlyBill->id ?? '' }}
-                            </td>-->
                             <td>
                                 {{ $monthlyBill->tahun ?? '' }}
                             </td>

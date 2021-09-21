@@ -18,6 +18,11 @@
                 <span class="help-block">{{ trans('cruds.announcement.fields.tittle_helper') }}</span>
             </div>
             <div class="form-group">
+                <label class="required" for="date">{{ trans('cruds.announcement.fields.date') }}</label>
+                <input class="form-control {{ $errors->has('date') ? 'is-invalid' : '' }}" type="date" name="date" id="date" value="{{ old('date', '') }}" required>
+                <span class="help-block">{{ trans('cruds.announcement.fields.tittle_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <label for="content">{{ trans('cruds.announcement.fields.content') }}</label>
                 <textarea class="form-control ckeditor {{ $errors->has('content') ? 'is-invalid' : '' }}" name="content" id="content">{!! old('content') !!}</textarea>
                 @if($errors->has('content'))

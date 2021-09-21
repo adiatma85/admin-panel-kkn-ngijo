@@ -45,7 +45,7 @@
                                 {{ App\Models\MonthlyBill::BULAN_SELECT[$monthlyBill->bulan] ?? 'Bulan' }}
                             </td>
                             <td>
-                            @foreach ($monthlyBill->monthlyBilltoBill as $itemPivot)
+                                @foreach ($monthlyBill->monthlyBilltoBill as $itemPivot)
                                     {{ $itemPivot->bill->name ?? "" }}
                                 @endforeach
                             </td>
