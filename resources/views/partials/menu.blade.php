@@ -1,7 +1,7 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4" style="min-height: 917px;">
     <!-- Brand Logo -->
     <a href="#" class="brand-link">
-        <span class="brand-text font-weight-light">{{ trans('panel.site_title') }}</span>
+        <span class="brand-text font-weight-light">Dashboard</span>
     </a>
 
     <!-- Sidebar -->
@@ -123,7 +123,7 @@
                     </li>
                 @endcan
                 @can('pembayaran_access')
-                <li class="nav-item has-treeview {{ request()->is("admin/pembayarans*") ? "menu-open" : "" }} {{ request()->is("admin/pembayarans*") ? "menu-open" : "" }}">
+                <li class="nav-item has-treeview {{ request()->is("admin/pembayarans*") ? "menu-open" : "" }} {{ request()->is("admin/pembayarans*") ? "menu-open" : "" }} " {{ request()->is("admin/konfirmasi-pembayaran*") ? "menu-open" : "" }}>
                     <a class="nav-link nav-dropdown-toggle" href="#">
                         <i class="fa-fw nav-icon fas fa-credit-card">
 
@@ -134,35 +134,7 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-                        {{-- @can('user_to_monthly_bill_access') --}}
-                            <li class="nav-item">
-                                <a href="{{ route("admin.pembayarans.index") }}" class="nav-link {{ request()->is("admin/pembayarans") || request()->is("admin/pembayarans*") ? "active" : "" }}">
-                                    <i class="fa-fw nav-icon fas fa-cogs">
-
-                                    </i>
-                                    <p>
-                                        {{-- {{ trans('cruds.userToMonthlyBill.title') }} --}}
-                                        Pembayaran
-                                    </p>
-                                </a>
-                            </li>
-                        @endcan
-                    </ul>
-                </li>
-                {{-- @endcan --}}
-                @can('misc_access')
-                    <li class="nav-item has-treeview {{ request()->is("admin/konfirmasi-pembayaran*") ? "menu-open" : "" }} {{ request()->is("admin/monthly-bill-to-bills*") ? "menu-open" : "" }}">
-                        <a class="nav-link nav-dropdown-toggle" href="#">
-                            <i class="fa-fw nav-icon fas fa-allergies">
-
-                            </i>
-                            <p>
-                                {{ trans('cruds.misc.title') }}
-                                <i class="right fa fa-fw fa-angle-left nav-icon"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            @can('user_to_monthly_bill_access')
+                        @can('user_to_monthly_bill_access')
                                 <li class="nav-item">
                                     <a href="{{ route("admin.konfirmasi-pembayaran.index") }}" class="nav-link {{ request()->is("admin/konfirmasi-pembayaran") || request()->is("admin/konfirmasi-pembayaran/*") ? "active" : "" }}">
                                         <i class="fa-fw nav-icon fas fa-cogs">
@@ -173,7 +145,35 @@
                                         </p>
                                     </a>
                                 </li>
-                            @endcan
+                        @endcan
+                        @can('user_pembayaran_access')
+                            <li class="nav-item">
+                                <a href="{{ route("admin.pembayarans.index") }}" class="nav-link {{ request()->is("admin/pembayarans") || request()->is("admin/pembayarans*") ? "active" : "" }}">
+                                    <i class="fa-fw nav-icon fas fa-cogs">
+
+                                    </i>
+                                    <p>
+                                        {{ trans('cruds.pembayarans.title') }}
+                                    </p>
+                                </a>
+                            </li>
+                        @endcan
+                        </ul>
+                    </li>
+                @endcan
+                {{-- @endcan --}}
+                @can('misc_access')
+                    <li class="nav-item has-treeview {{ request()->is("admin/monthly-bill-to-bills*") ? "menu-open" : "" }}">
+                        <a class="nav-link nav-dropdown-toggle" href="#">
+                            <i class="fa-fw nav-icon fas fa-allergies">
+
+                            </i>
+                            <p>
+                                {{ trans('cruds.misc.title') }}
+                                <i class="right fa fa-fw fa-angle-left nav-icon"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
                             @can('monthly_bill_to_bill_access')
                                 <li class="nav-item">
                                     <a href="{{ route("admin.monthly-bill-to-bills.index") }}" class="nav-link {{ request()->is("admin/monthly-bill-to-bills") || request()->is("admin/monthly-bill-to-bills/*") ? "active" : "" }}">
