@@ -9,7 +9,7 @@
     <div class="card-body">
         <div class="form-group">
             <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.user-to-monthly-bills.index') }}">
+                <a class="btn btn-default" href="{{ route('admin.konfirmasi-pembayaran.index') }}">
                     {{ trans('global.back_to_list') }}
                 </a>
             </div>
@@ -37,6 +37,7 @@
                         </th>
                         <td>
                           {{ $userToMonthlyBill->monthly_bill->bulan ? : '' }} {{ $userToMonthlyBill->monthly_bill->tahun ? : '' }}
+                          {{-- Ini nama bulan dan tahun nantinya --}}
                         </td>
                     </tr>
                     <tr>

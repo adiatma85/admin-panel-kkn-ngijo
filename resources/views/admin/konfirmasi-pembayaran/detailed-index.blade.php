@@ -3,7 +3,7 @@
 @can('user_to_monthly_bill_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route('admin.user-to-monthly-bills.create') }}">
+            <a class="btn btn-success" href="{{ route('admin.konfirmasi-pembayaran.create') }}">
                 {{ trans('global.add') }} {{ trans('cruds.userToMonthlyBill.title_singular') }}
             </a>
         </div>
@@ -28,10 +28,7 @@
                             {{ trans('cruds.userToMonthlyBill.fields.user') }}
                         </th>
                         <th>
-                            {{ trans('cruds.userToMonthlyBill.fields.monthly_bill') }}
-                        </th>
-                        <th>
-                            Bulan
+                            {{ trans('cruds.userToMonthlyBill.fields.bulan') }}
                         </th>
                         <th>
                             {{ trans('cruds.userToMonthlyBill.fields.status_pembayaran') }}
@@ -56,9 +53,6 @@
                             <td>
                                 {{ $userToMonthlyBill->user->name ?? '' }}
                             </td>
-                            <td>
-                                {{ $userToMonthlyBill->monthly_bill->tahun ?? '' }}
-                            </td> 
                             <td>
                                 {{ $userToMonthlyBill->monthly_bill->bulan ? : '' }}
                             </td>
@@ -96,19 +90,19 @@
                             </td>
                             <td>
                                 @can('user_to_monthly_bill_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.user-to-monthly-bills.show', $userToMonthlyBill->id) }}">
+                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.konfirmasi-pembayaran.show', $userToMonthlyBill->id) }}">
                                         {{ trans('global.view') }}
                                     </a>
                                 @endcan
 
                                 @can('user_to_monthly_bill_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.user-to-monthly-bills.edit', $userToMonthlyBill->id) }}">
+                                    <a class="btn btn-xs btn-info" href="{{ route('admin.konfirmasi-pembayaran.edit', $userToMonthlyBill->id) }}">
                                         {{ trans('global.edit') }}
                                     </a>
                                 @endcan
 
                                 @can('user_to_monthly_bill_delete')
-                                    <form action="{{ route('admin.user-to-monthly-bills.destroy', $userToMonthlyBill->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                    <form action="{{ route('admin.konfirmasi-pembayaran.destroy', $userToMonthlyBill->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
@@ -137,7 +131,7 @@
   let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
   let deleteButton = {
     text: deleteButtonTrans,
-    url: "{{ route('admin.user-to-monthly-bills.massDestroy') }}",
+    url: "{{ route('admin.konfirmasi-pembayaran.massDestroy') }}",
     className: 'btn-danger',
     action: function (e, dt, node, config) {
       var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {

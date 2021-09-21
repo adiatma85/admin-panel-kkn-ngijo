@@ -151,7 +151,7 @@
                 </li>
                 {{-- @endcan --}}
                 @can('misc_access')
-                    <li class="nav-item has-treeview {{ request()->is("admin/user-to-monthly-bills*") ? "menu-open" : "" }} {{ request()->is("admin/monthly-bill-to-bills*") ? "menu-open" : "" }}">
+                    <li class="nav-item has-treeview {{ request()->is("admin/konfirmasi-pembayaran*") ? "menu-open" : "" }} {{ request()->is("admin/monthly-bill-to-bills*") ? "menu-open" : "" }}">
                         <a class="nav-link nav-dropdown-toggle" href="#">
                             <i class="fa-fw nav-icon fas fa-allergies">
 
@@ -164,7 +164,7 @@
                         <ul class="nav nav-treeview">
                             @can('user_to_monthly_bill_access')
                                 <li class="nav-item">
-                                    <a href="{{ route("admin.user-to-monthly-bills.index") }}" class="nav-link {{ request()->is("admin/user-to-monthly-bills") || request()->is("admin/user-to-monthly-bills/*") ? "active" : "" }}">
+                                    <a href="{{ route("admin.konfirmasi-pembayaran.index") }}" class="nav-link {{ request()->is("admin/konfirmasi-pembayaran") || request()->is("admin/konfirmasi-pembayaran/*") ? "active" : "" }}">
                                         <i class="fa-fw nav-icon fas fa-cogs">
 
                                         </i>

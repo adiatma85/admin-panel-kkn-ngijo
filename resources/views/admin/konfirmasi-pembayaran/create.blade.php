@@ -7,7 +7,7 @@
     </div>
 
     <div class="card-body">
-        <form method="POST" action="{{ route("admin.user-to-monthly-bills.store") }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route("admin.konfirmasi-pembayaran.store") }}" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
                 <label for="user_id">{{ trans('cruds.userToMonthlyBill.fields.user') }}</label>
@@ -72,7 +72,7 @@
 <script>
     var uploadedImagesMap = {}
 Dropzone.options.imagesDropzone = {
-    url: '{{ route('admin.user-to-monthly-bills.storeMedia') }}',
+    url: '{{ route('admin.konfirmasi-pembayaran.storeMedia') }}',
     maxFilesize: 2, // MB
     acceptedFiles: '.jpeg,.jpg,.png,.gif',
     addRemoveLinks: true,

@@ -124,8 +124,8 @@ return [
         ],
     ],
     'userToMonthlyBill' => [
-        'title'          => 'User to Monthly Bill',
-        'title_singular' => 'User to Monthly Bill',
+        'title'          => 'Konfirmasi Pembayaran',
+        'title_singular' => 'Konfirmasi Pembayaran',
         'fields'         => [
             'id'                       => 'ID',
             'id_helper'                => ' ',
@@ -144,6 +144,8 @@ return [
             'images'                   => 'Images',
             'images_helper'            => ' ',
             'edit_status_pembayaran'   => "Edit status pembayaran",
+            'bulan'                    => "Bulan",
+            'bulan_helper'             => " ",
         ],
     ],
     'monthlyBillToBill' => [

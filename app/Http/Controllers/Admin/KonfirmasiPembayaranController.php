@@ -10,32 +10,39 @@ use App\Http\Requests\UpdateUserToMonthlyBillRequest;
 use App\Models\MonthlyBill;
 use App\Models\User;
 use App\Models\UserToMonthlyBill;
+use App\Models\MonthlyBillToBill;
 use Gate;
+use App\Http\Controllers\Traits\CheckingScope;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
 
-class UserToMonthlyBillController extends Controller
+class KonfirmasiPembayaranController extends Controller
 {
     use MediaUploadingTrait;
+    use CheckingScope;
 
-    public function showIndexing()
-    {
-        // $monthlyBills = 
-        return view('admin.userToMonthlyBills.show-index');
-    }
 
     public function index()
     {
-    
- 
         // Ditambahi bulan di kolom tampilannya
-
         abort_if(Gate::denies('user_to_monthly_bill_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $userToMonthlyBills = UserToMonthlyBill::with(['user', 'monthly_bill', 'media'])->get();
+        $monthlyBills = $this->checkingScope() ? MonthlyBill::all() : MonthlyBill::where('scope_id', Auth::user()->scope_id)->get();
 
-        return view('admin.userToMonthlyBills.index', compact('userToMonthlyBills'));
+        return view('admin.konfirmasi-pembayaran.index', compact('monthlyBills'));
+    }
+
+    public function detailed_index($monthlyBill_Id)
+    {
+        abort_if(Gate::denies('user_to_monthly_bill_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $userToMonthlyBills = UserToMonthlyBill::where('monthly_bill_id', $monthlyBill_Id)
+            ->with(['user', 'monthly_bill', 'media'])
+            ->get();
+
+        return view('admin.konfirmasi-pembayaran.detailed-index', compact('userToMonthlyBills'));
     }
 
     public function create()
@@ -46,7 +53,7 @@ class UserToMonthlyBillController extends Controller
 
         $monthly_bills = MonthlyBill::pluck('tahun', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.userToMonthlyBills.create', compact('users', 'monthly_bills'));
+        return view('admin.konfirmasi-pembayaran.create', compact('users', 'monthly_bills'));
     }
 
     public function store(StoreUserToMonthlyBillRequest $request)
@@ -64,9 +71,11 @@ class UserToMonthlyBillController extends Controller
         return redirect()->route('admin.user-to-monthly-bills.index');
     }
 
-    public function edit(UserToMonthlyBill $userToMonthlyBill)
+    public function edit($userToMonthlyBillId)
     {
         abort_if(Gate::denies('user_to_monthly_bill_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $userToMonthlyBill = UserToMonthlyBill::findOrFail($userToMonthlyBillId);
 
         $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
@@ -74,9 +83,9 @@ class UserToMonthlyBillController extends Controller
 
         $userToMonthlyBill->load('user', 'monthly_bill');
 
-        return view('admin.userToMonthlyBills.edit', compact('users', 'monthly_bills', 'userToMonthlyBill'));
+        return view('admin.konfirmasi-pembayaran.edit', compact('users', 'monthly_bills', 'userToMonthlyBill'));
     }
- 
+
     public function update(UpdateUserToMonthlyBillRequest $request, UserToMonthlyBill $userToMonthlyBill)
     {
         $userToMonthlyBill->update($request->all());
@@ -98,23 +107,27 @@ class UserToMonthlyBillController extends Controller
         return redirect()->route('admin.user-to-monthly-bills.index');
     }
 
-    public function show(UserToMonthlyBill $userToMonthlyBill)
+    public function show($userToMonthlyBillId)
     {
         abort_if(Gate::denies('user_to_monthly_bill_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        $userToMonthlyBill = UserToMonthlyBill::findOrFail($userToMonthlyBillId);
+
         $userToMonthlyBill->load('user', 'monthly_bill');
-     
-        return view('admin.userToMonthlyBills.show', compact('userToMonthlyBill'));
+
+        return view('admin.konfirmasi-pembayaran.show', compact('userToMonthlyBill'));
     }
- 
-    public function destroy(UserToMonthlyBill $userToMonthlyBill)
+
+    public function destroy($userToMonthlyBillId)
     {
         abort_if(Gate::denies('user_to_monthly_bill_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $userToMonthlyBill = UserToMonthlyBill::where('id', $userToMonthlyBillId);
 
         $userToMonthlyBill->delete();
 
         return back();
-    }  
+    }
 
     public function massDestroy(MassDestroyUserToMonthlyBillRequest $request)
     {
@@ -134,12 +147,10 @@ class UserToMonthlyBillController extends Controller
 
         return response()->json(['id' => $media->id, 'url' => $media->getUrl()], Response::HTTP_CREATED);
     }
- 
+
     public function editStatus(Request $request)
     {
-        UserToMonthlyBill::where('id',$request->id)->update(['status_pembayaran' => $request->status_pembayaran]);
+        UserToMonthlyBill::where('id', $request->id)->update(['status_pembayaran' => $request->status_pembayaran]);
         return redirect()->route('admin.user-to-monthly-bills.index');
     }
- 
-
 }
