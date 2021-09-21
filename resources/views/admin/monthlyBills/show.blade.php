@@ -39,25 +39,25 @@
                             {{ App\Models\MonthlyBill::BULAN_SELECT[$monthlyBill->bulan] ?? '' }}
                         </td>
                     </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.bill.fields.scope') }}
-                        </th>
-                        <td>
-                            {{ $monthlyBill->scope->name ?? "" }}
-                        </td>
-                    </tr>
+
+                    @foreach ($monthlyBill->monthlyBilltoBill as $itemPivot)
                     <tr>
                         <th>
                             {{ trans('cruds.monthlyBill.fields.iuran') }}
                         </th>
                         <td>
-                            @foreach ($monthlyBill->monthlyBilltoBill as $itemPivot)
-                                    {{ $itemPivot->bill->name ?? "" }} : 
-                                    Rp. {{ $itemPivot->bill->price ?? "" }}
-                            @endforeach
+                            {{ $itemPivot->bill->name ?? "" }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.bill.fields.price') }}
+                        </th>
+                        <td>
+                            Rp. {{ $itemPivot->bill->price ?? "" }}
+                        </td>
+                    </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
