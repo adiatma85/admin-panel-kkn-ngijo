@@ -18,16 +18,11 @@ use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
 
-class UserToMonthlyBillController extends Controller
+class KonfirmasiPembayaranController extends Controller
 {
     use MediaUploadingTrait;
     use CheckingScope;
 
-    public function showIndexing()
-    {
-        // $monthlyBills = 
-        return view('admin.userToMonthlyBills.show-index');
-    }
 
     public function index()
     {
@@ -36,7 +31,7 @@ class UserToMonthlyBillController extends Controller
 
         $monthlyBills = $this->checkingScope() ? MonthlyBill::all() : MonthlyBill::where('scope_id', Auth::user()->scope_id)->get();
 
-        return view('admin.userToMonthlyBills.index', compact('monthlyBills'));
+        return view('admin.konfirmasi-pembayaran.index', compact('monthlyBills'));
     }
 
     public function detailed_index($monthlyBill_Id)
@@ -47,7 +42,7 @@ class UserToMonthlyBillController extends Controller
             ->with(['user', 'monthly_bill', 'media'])
             ->get();
 
-        return view('admin.userToMonthlyBills.detailed-index', compact('userToMonthlyBills'));
+        return view('admin.konfirmasi-pembayaran.detailed-index', compact('userToMonthlyBills'));
     }
 
     public function create()
@@ -58,7 +53,7 @@ class UserToMonthlyBillController extends Controller
 
         $monthly_bills = MonthlyBill::pluck('tahun', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.userToMonthlyBills.create', compact('users', 'monthly_bills'));
+        return view('admin.konfirmasi-pembayaran.create', compact('users', 'monthly_bills'));
     }
 
     public function store(StoreUserToMonthlyBillRequest $request)
@@ -88,7 +83,7 @@ class UserToMonthlyBillController extends Controller
 
         $userToMonthlyBill->load('user', 'monthly_bill');
 
-        return view('admin.userToMonthlyBills.edit', compact('users', 'monthly_bills', 'userToMonthlyBill'));
+        return view('admin.konfirmasi-pembayaran.edit', compact('users', 'monthly_bills', 'userToMonthlyBill'));
     }
 
     public function update(UpdateUserToMonthlyBillRequest $request, UserToMonthlyBill $userToMonthlyBill)
@@ -120,7 +115,7 @@ class UserToMonthlyBillController extends Controller
 
         $userToMonthlyBill->load('user', 'monthly_bill');
 
-        return view('admin.userToMonthlyBills.show', compact('userToMonthlyBill'));
+        return view('admin.konfirmasi-pembayaran.show', compact('userToMonthlyBill'));
     }
 
     public function destroy($userToMonthlyBillId)
