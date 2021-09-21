@@ -39,6 +39,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     // User To Monthly Bill
     Route::delete('user-to-monthly-bills/destroy', 'UserToMonthlyBillController@massDestroy')->name('user-to-monthly-bills.massDestroy');
+    Route::get('index-detail-pembayaran/{monthlyBill_Id}', 'UserToMonthlyBillController@detailed_index')->name('index-detail-pembayaran');
     Route::resource('user-to-monthly-bills', 'UserToMonthlyBillController');
     Route::post('user-to-monthly-bills-edit-status', 'UserToMonthlyBillController@editStatus')->name('user-to-monthly-bills-edit-status');
 
