@@ -59,7 +59,11 @@
                             <td>
                                 {{ App\Models\MonthlyBill::BULAN_SELECT[$monthlyBill->bulan] ?? '' }}
                             </td>
-                            <td></td>
+                            <td>
+                                @foreach ($monthlyBill->monthlyBilltoBill as $itemPivot)
+                                    {{ $itemPivot->bill->name ?? "" }}
+                                @endforeach
+                            </td>
                             @if (Auth::user()->scope_id != null)    
                                 <td>
                                     {{ $monthlyBill->scope->name ?? "" }}

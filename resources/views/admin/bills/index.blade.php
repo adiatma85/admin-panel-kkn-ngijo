@@ -62,11 +62,10 @@
                             <td>
                                 {{ $bill->price ?? '' }}
                             </td>
-                            @if (Auth::user()->scope_id != null)    
+                               
                                 <td>
-                                    {{ $bill->scope->name ?? "" }}
+                                    
                                 </td>
-                            @endif
                             <td>
                                 @can('bill_show')
                                     <a class="btn btn-xs btn-primary" href="{{ route('admin.bills.show', $bill->id) }}">

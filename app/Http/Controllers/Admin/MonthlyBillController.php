@@ -24,10 +24,10 @@ class MonthlyBillController extends Controller
     public function index()
     {
         abort_if(Gate::denies('monthly_bill_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
+        $monthlyBill = MonthlyBill::get();
         $monthlyBills = $this->checkingScope() ? MonthlyBill::all() : MonthlyBill::where('scope_id', Auth::user()->scope_id)->get();
 
-        return view('admin.monthlyBills.index', compact('monthlyBills'));
+        return view('admin.monthlyBills.index', compact('monthlyBills', 'monthlyBill'));
     }
 
     public function create()
