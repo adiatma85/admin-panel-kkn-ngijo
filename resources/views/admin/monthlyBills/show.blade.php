@@ -15,14 +15,14 @@
             </div>
             <table class="table table-bordered table-striped">
                 <tbody>
-                    <tr>
-                        <th>
+                     <!--<tr>
+                       <th>
                             {{ trans('cruds.monthlyBill.fields.id') }}
                         </th>
                         <td>
                             {{ $monthlyBill->id }}
                         </td>
-                    </tr>
+                    </tr>-->
                     <tr>
                         <th>
                             {{ trans('cruds.monthlyBill.fields.tahun') }}
@@ -39,27 +39,25 @@
                             {{ App\Models\MonthlyBill::BULAN_SELECT[$monthlyBill->bulan] ?? '' }}
                         </td>
                     </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.bills.fields.scope') }}
-                        </th>
-                        <td>
-                            {{ $monthlyBill->scope->name ?? "" }}
-                        </td>
-                    </tr>
+
+                    @foreach ($monthlyBill->monthlyBilltoBill as $itemPivot)
                     <tr>
                         <th>
                             {{ trans('cruds.monthlyBill.fields.iuran') }}
                         </th>
                         <td>
-                            @foreach ($monthlyBill->monthlyBilltoBill as $itemPivot)
-                                <li>
-                                    {{ $itemPivot->bill->name ?? "" }} : 
-                                    Rp. {{ $itemPivot->bill->price ?? "" }}
-                                </li>
-                            @endforeach
+                            {{ $itemPivot->bill->name ?? "" }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.bill.fields.price') }}
+                        </th>
+                        <td>
+                            Rp. {{ $itemPivot->bill->price ?? "" }}
+                        </td>
+                    </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
