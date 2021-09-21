@@ -9,7 +9,7 @@
     <div class="card-body">
         <div class="form-group">
             <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.monthly-bills.index') }}">
+                <a class="btn btn-default" href="{{ route('admin.pembayarans.index') }}">
                     {{ trans('global.back_to_list') }}
                 </a>
             </div>
@@ -33,7 +33,7 @@
                     </tr>
                     <tr>
                         <th>
-                            Nama
+                            {{ trans('cruds.monthlyBill.fields.nama') }}
                         </th>
                         <td>
                             {{ Auth::user()->name ?? "" }}

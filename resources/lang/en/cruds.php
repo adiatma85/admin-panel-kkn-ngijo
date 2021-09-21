@@ -121,6 +121,8 @@ return [
             'deleted_at_helper' => ' ',
             "iuran"             => "Jenis iuran",
             "iuran_helper"      => " ",
+            "nama"              => "Nama User",
+            'nama_helper'       => " ",
         ],
     ],
     'userToMonthlyBill' => [
