@@ -16,12 +16,12 @@
             <table class="table table-bordered table-striped">
                 <tbody>
                     <tr>
-                        <th>
+                        <!--<th>
                             {{ trans('cruds.bill.fields.id') }}
                         </th>
                         <td>
                             {{ $bill->id }}
-                        </td>
+                        </td>-->
                     </tr>
                     <tr>
                         <th>

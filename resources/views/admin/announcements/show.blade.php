@@ -15,14 +15,14 @@
             </div>
             <table class="table table-bordered table-striped">
                 <tbody>
-                    <tr>
+                    <!--<tr>
                         <th>
                             {{ trans('cruds.announcement.fields.id') }}
                         </th>
                         <td>
                             {{ $announcement->id }}
                         </td>
-                    </tr>
+                    </tr>-->
                     <tr>
                         <th>
                             {{ trans('cruds.announcement.fields.tittle') }}
@@ -30,6 +30,14 @@
                         <td>
                             {{ $announcement->tittle }}
                         </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.announcement.fields.date') }}
+                        </th>
+                        <th>
+                            
+                        </th>
                     </tr>
                     <tr>
                         <th>

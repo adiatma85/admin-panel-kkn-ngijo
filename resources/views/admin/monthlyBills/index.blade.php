@@ -11,7 +11,7 @@
 @endcan
 <div class="card">
     <div class="card-header">
-        {{ trans('cruds.monthlyBill.title_singular') }} {{ trans('global.list') }}
+    {{ trans('global.list') }} {{ trans('cruds.monthlyBill.title_singular') }} 
     </div>
 
     <div class="card-body">
@@ -22,14 +22,17 @@
                         <th width="10">
 
                         </th>
-                        <th>
+                        <!--<th>
                             {{ trans('cruds.monthlyBill.fields.id') }}
-                        </th>
+                        </th>-->
                         <th>
                             {{ trans('cruds.monthlyBill.fields.tahun') }}
                         </th>
                         <th>
                             {{ trans('cruds.monthlyBill.fields.bulan') }}
+                        </th>
+                        <th>
+                        {{ trans('cruds.monthlyBill.fields.iuran') }}
                         </th>
                         @if (Auth::user()->scope_id != null)    
                             <th>
@@ -47,15 +50,16 @@
                             <td>
 
                             </td>
-                            <td>
+                            <!--<td>
                                 {{ $monthlyBill->id ?? '' }}
-                            </td>
+                            </td>-->
                             <td>
                                 {{ $monthlyBill->tahun ?? '' }}
                             </td>
                             <td>
                                 {{ App\Models\MonthlyBill::BULAN_SELECT[$monthlyBill->bulan] ?? '' }}
                             </td>
+                            <td></td>
                             @if (Auth::user()->scope_id != null)    
                                 <td>
                                     {{ $monthlyBill->scope->name ?? "" }}

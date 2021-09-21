@@ -11,7 +11,7 @@
 @endcan
 <div class="card">
     <div class="card-header">
-        {{ trans('cruds.bill.title_singular') }} {{ trans('global.list') }}
+    {{ trans('global.list') }} {{ trans('cruds.bill.title_singular') }} 
     </div>
 
     <div class="card-body">
@@ -22,9 +22,9 @@
                         <th width="10">
 
                         </th>
-                        <th>
+                        <!--<th>
                             {{ trans('cruds.bill.fields.id') }}
-                        </th>
+                        </th>-->
                         <th>
                             {{ trans('cruds.bill.fields.name') }}
                         </th>
@@ -50,9 +50,9 @@
                             <td>
 
                             </td>
-                            <td>
+                            <!--<td>
                                 {{ $bill->id ?? '' }}
-                            </td>
+                            </td>-->
                             <td>
                                 {{ $bill->name ?? '' }}
                             </td>

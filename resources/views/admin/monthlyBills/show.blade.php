@@ -15,14 +15,14 @@
             </div>
             <table class="table table-bordered table-striped">
                 <tbody>
-                    <tr>
-                        <th>
+                     <!--<tr>
+                       <th>
                             {{ trans('cruds.monthlyBill.fields.id') }}
                         </th>
                         <td>
                             {{ $monthlyBill->id }}
                         </td>
-                    </tr>
+                    </tr>-->
                     <tr>
                         <th>
                             {{ trans('cruds.monthlyBill.fields.tahun') }}
@@ -41,7 +41,7 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.bills.fields.scope') }}
+                            {{ trans('cruds.bill.fields.scope') }}
                         </th>
                         <td>
                             {{ $monthlyBill->scope->name ?? "" }}
@@ -53,10 +53,8 @@
                         </th>
                         <td>
                             @foreach ($monthlyBill->monthlyBilltoBill as $itemPivot)
-                                <li>
                                     {{ $itemPivot->bill->name ?? "" }} : 
                                     Rp. {{ $itemPivot->bill->price ?? "" }}
-                                </li>
                             @endforeach
                         </td>
                     </tr>
