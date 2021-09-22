@@ -102,7 +102,7 @@
                             </td>
                         </tr>                       
                     @endforeach
-                </tbody>
+                </tbody> 
             </table>
         </div>
         <form method="POST" action="{{ route('admin.pembayarans.update', [ "pembayaran" => $monthlyBill->id ]) }}" enctype="multipart/form-data">
@@ -121,6 +121,21 @@
                     <span class="text-danger">{{ $errors->first('metode_pembayaran') }}</span>
                 @endif
                 <span class="help-block">{{ trans('cruds.pembayarans.fields.metode_pembayaran_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label class="required" for="nominal_pembayaran">{{ 'Nominal Pembayaran' }}</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Rp</span>  
+                    </div>
+                    <input class="form-control {{ $errors->has('nominal_pembayaran') ? 'is-invalid' : '' }}" type="nominal_pembayaran" name="nominal_pembayaran" id="nominal_pembayaran" value="{{ old('nominal_pembayaran', '0') }}" step="0.01" required>
+                    <div class="input-group-append">
+                        <span class="input-group-text">.00</span>  
+                    </div>
+                </div>
+                @if($errors->has('nominal_pembayaran'))
+                    <span class="text-danger">{{ $errors->first('nominal_pembayaran') }}</span>
+                @endif
             </div>
             <div class="form-group">
                 <label class="required" for="image">{{ trans('cruds.pembayarans.fields.image') }}</label>

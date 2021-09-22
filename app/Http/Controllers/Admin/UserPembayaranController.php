@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
+ 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Bill;
@@ -59,6 +59,7 @@ class UserPembayaranController extends Controller
             [
                 'status_pembayaran' => UserToMonthlyBill::STATUS_PEMBAYARAN_SELECT['Paid'],
                 'metode_pembayaran' => $request->input('metode_pembayaran'),
+                'nominal_pembayaran' => $request->input('nominal_pembayaran')
             ]
         );
         if (count($userMonthlyBill->images) > 0) {
@@ -76,12 +77,11 @@ class UserPembayaranController extends Controller
         }
         return redirect()->route('admin.pembayarans.index');
     }
-
+ 
     public function editMetode(Request $request)
     {
         UserToMonthlyBill::where('id', $request->id)->update(['metode_pembayaran' => $request->metode_pembayaran]);
         return redirect()->route('admin.pembayarans.index');
     }
-
     // no delete function in this group
 }
