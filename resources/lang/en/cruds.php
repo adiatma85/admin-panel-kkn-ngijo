@@ -145,7 +145,7 @@ return [
             'monthly_bill_helper'      => ' ',
             'status_pembayaran'        => 'Status Pembayaran',
             'status_pembayaran_helper' => ' ',
-            'images'                   => 'Images',
+            'images'                   => 'Bukti Transaksi',
             'images_helper'            => ' ',
             'edit_status_pembayaran'   => "Edit status pembayaran",
             'bulan'                    => "Bulan",

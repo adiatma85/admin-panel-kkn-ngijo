@@ -92,17 +92,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserToMonthlyBill::class, 'user_id');
     }
-
-    // Helper Join with Konfirmasi Pembayaran tables
-    public function joinKonfirmasiPembayaran($monthlyBill_Id)
-    {
-        $query = $this->query()
-                ->join('user_to_monthly_bills', 'user_to_monthly_bills.user_id', '=', 'users.id')
-                ->where('user_to_monthly_bills.monthly_bill_id', '=', $monthlyBill_Id)
-                ->select('user_to_monthly_bills.id')
-                // ->where('deleted_at', '=', null)
-                ->get();
-
-        return $query;
-    }
 }

@@ -90,7 +90,7 @@
                                         @if ($userToMonthlyBill)
                                             {{ $userToMonthlyBill->status_pembayaran }}
                                         @else
-                                            Belum Membayar
+                                            Not Paid
                                         @endif
                                     </div>
                                     <div class="col-6">
@@ -128,7 +128,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">Rp</span>  
                     </div>
-                    <input class="form-control {{ $errors->has('nominal_pembayaran') ? 'is-invalid' : '' }}" type="nominal_pembayaran" name="nominal_pembayaran" id="nominal_pembayaran" value="{{ old('nominal_pembayaran', '0') }}" step="0.01" required>
+                    <input class="form-control {{ $errors->has('nominal_pembayaran') ? 'is-invalid' : '' }}" type="number" name="nominal_pembayaran" id="nominal_pembayaran" value="{{ old('nominal_pembayaran', '0') }}" step="0.01" required>
                     <div class="input-group-append">
                         <span class="input-group-text">.00</span>  
                     </div>

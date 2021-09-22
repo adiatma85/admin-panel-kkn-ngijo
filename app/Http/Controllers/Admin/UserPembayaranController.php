@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
- 
+
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Bill;
@@ -16,7 +16,7 @@ class UserPembayaranController extends Controller
 {
 
     use MediaUploadingTrait;
-    use CheckingScope;  
+    use CheckingScope;
 
     public function index()
     {
@@ -51,7 +51,8 @@ class UserPembayaranController extends Controller
     // Special case for storing the data
     public function update(Request $request, $monthlyBillId)
     {
-        $userMonthlyBill = UserToMonthlyBill::firstOrCreate(
+        // Create or Update new instance
+        UserToMonthlyBill::updateOrCreate(
             [
                 'user_id' => Auth::user()->id,
                 'monthly_bill_id' => $monthlyBillId,
@@ -59,9 +60,16 @@ class UserPembayaranController extends Controller
             [
                 'status_pembayaran' => UserToMonthlyBill::STATUS_PEMBAYARAN_SELECT['Paid'],
                 'metode_pembayaran' => $request->input('metode_pembayaran'),
-                'nominal_pembayaran' => $request->input('nominal_pembayaran')
+                'nominal_pembayaran' => $request->input('nominal_pembayaran'),
             ]
         );
+
+        // Failsafe if no new instance created
+        $userMonthlyBill = UserToMonthlyBill::where([
+            'user_id' => Auth::user()->id,
+            'monthly_bill_id' => $monthlyBillId,
+        ])->first();
+
         if (count($userMonthlyBill->images) > 0) {
             foreach ($userMonthlyBill->images as $media) {
                 if (!in_array($media->file_name, $request->input('images', []))) {
@@ -70,14 +78,18 @@ class UserPembayaranController extends Controller
             }
         }
         $media = $userMonthlyBill->images->pluck('file_name')->toArray();
-        foreach ($request->input('images') as $image) {
-            if (count($media) === 0 || !in_array($image, $media)) {
-                $userMonthlyBill->addMedia(storage_path('tmp/uploads/' . basename($image)))->toMediaCollection('images');
+
+        // Failsafe to if no images provided
+        if ($request->input('images') > 0) {
+            foreach ($request->input('images') as $image) {
+                if (count($media) === 0 || !in_array($image, $media)) {
+                    $userMonthlyBill->addMedia(storage_path('tmp/uploads/' . basename($image)))->toMediaCollection('images');
+                }
             }
         }
         return redirect()->route('admin.pembayarans.index');
     }
- 
+
     public function editMetode(Request $request)
     {
         UserToMonthlyBill::where('id', $request->id)->update(['metode_pembayaran' => $request->metode_pembayaran]);
