@@ -46,7 +46,9 @@
                             {{ trans('cruds.monthlyBill.fields.iuran') }}
                         </th>
                         <td>
-                            {{ $itemPivot->bill->name ?? "" }}
+                            <span class="badge rounded-pill bg-info mx-1">
+                                {{ $itemPivot->bill->name ?? "" }}
+                            </span>
                         </td>
                     </tr>
                     <tr>

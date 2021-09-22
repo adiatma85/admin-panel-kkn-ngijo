@@ -44,6 +44,7 @@ class UserToMonthlyBill extends Model implements HasMedia
         'monthly_bill_id',
         'status_pembayaran',
         'metode_pembayaran',
+        'nominal_pembayaran',
         'created_at',
         'updated_at',
         'deleted_at',

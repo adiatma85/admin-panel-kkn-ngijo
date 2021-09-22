@@ -38,24 +38,25 @@ class KonfirmasiPembayaranController extends Controller
     {
         abort_if(Gate::denies('user_to_monthly_bill_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        // $users = $this->checkingScope() ? 
-        //     User::with(['roles', 'itemPembayaran'])
-        //         ->get() : 
-        //     User::where('scope_id', Auth::user()->scope_id)
-        //         ->with(['roles', 'itemPembayaran'])
-        //         ->get();
-        // $tryWithJoin = new User();
-        // $tryWithJoin = $tryWithJoin->joinKonfirmasiPembayaran($monthlyBill_Id);
-        // return response()->json([
-        //     // 'users' => $users,
-        //     'withJoin' => $tryWithJoin,
-        // ]);
+        $users = $this->checkingScope() ?
+            User::with(['roles', 'itemPembayaran' => function ($query) use ($monthlyBill_Id) {
+                 $query->where('monthly_bill_id', $monthlyBill_Id)
+                    ->with(['media']);
+            }])
+            ->get() :
+            User::where('scope_id', Auth::user()->scope_id)
+                ->with(['roles', 'itemPembayaran' => function ($query) use ($monthlyBill_Id) {
+                    $query->where('monthly_bill_id', $monthlyBill_Id)
+                        ->with(['media']);
+                }])
+                ->get();
+        $monthlyBill = MonthlyBill::where('id', $monthlyBill_Id)->first();
 
         $userToMonthlyBills = UserToMonthlyBill::where('monthly_bill_id', $monthlyBill_Id)
             ->with(['user', 'monthly_bill', 'media'])
             ->get();
 
-        return view('admin.konfirmasi-pembayaran.detailed-index', compact('userToMonthlyBills'));
+        return view('admin.konfirmasi-pembayaran.detailed-index', compact('userToMonthlyBills', 'monthlyBill', 'users'));
     }
 
     public function create()

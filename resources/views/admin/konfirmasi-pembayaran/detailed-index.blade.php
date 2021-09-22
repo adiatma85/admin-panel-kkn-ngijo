@@ -22,9 +22,6 @@
 
                         </th>
                         <th>
-                            {{ trans('cruds.userToMonthlyBill.fields.id') }}
-                        </th>
-                        <th>
                             {{ trans('cruds.userToMonthlyBill.fields.user') }}
                         </th>
                         <th>
@@ -42,72 +39,81 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($userToMonthlyBills as $key => $userToMonthlyBill)
-                        <tr data-entry-id="{{ $userToMonthlyBill->id }}">
+                    @foreach($users as $user)
+                        @php
+                            $userToMonthlyBill = $user->itemPembayaran;
+                            $isExist = count($userToMonthlyBill) != 0;
+                        @endphp
+                        <tr data-entry-id="{{ $user->id }}">
                             <td>
                             
                             </td>
-                            <td> 
-                                {{ $userToMonthlyBill->id ?? '' }}
+                            <td>
+                                {{ $user->name ?? '' }}
                             </td>
                             <td>
-                                {{ $userToMonthlyBill->user->name ?? '' }}
-                            </td>
-                            <td>
-                                {{ $userToMonthlyBill->monthly_bill->bulan ? : '' }}
+                                {{ $monthlyBill->bulan ?? "" }} {{ $monthlyBulan->tahun ?? "" }}
                             </td>
                             <td>
                                 @php
-                                $badgeBg = "";
-                                switch ($userToMonthlyBill->status_pembayaran) {
-                                    case 'Not Paid':
+                                    $badgeBg = "";
+                                    if ($isExist) {
+                                        switch ($userToMonthlyBill[0]->status_pembayaran) {
+                                            case 'Not Paid':
+                                                $badgeBg = "danger";
+                                                break;
+
+                                            case 'Paid':
+                                                $badgeBg = "warning";
+                                                break;
+
+                                            case 'Verified':
+                                                $badgeBg = "success";
+                                                break;
+
+                                            default:
+                                                $badgeBg = "danger";
+                                                break;
+                                        }
+                                    } else {
                                         $badgeBg = "danger";
-                                        break;
-
-                                    case 'Paid':
-                                        $badgeBg = "warning";
-                                        break;
-
-                                    case 'Verified':
-                                        $badgeBg = "success";
-                                        break;
-
-                                    default:
-                                        $badgeBg = "danger";
-                                        break;
-                                }
-                            @endphp
+                                    }
+                                @endphp
                                 <span class="badge rounded-pill bg-{{$badgeBg}}">
-                                    {{ $userToMonthlyBill->status_pembayaran ? : '' }}
+                                    {{ $userToMonthlyBill[0]->status_pembayaran ?? 'Not Paid' }}
                                 </span>
                             </td> 
                             <td>
-                                @foreach($userToMonthlyBill->images as $key => $media)
-                                    <a href="{{ $media->getUrl() }}" target="_blank" style="display: inline-block">
-                                        <img src="{{ $media->getUrl('thumb') }}">
-                                    </a>
-                                @endforeach
+                                @if ($isExist)    
+                                    @foreach($userToMonthlyBill[0]->images as $media)
+                                        <a href="{{ $media->getUrl() }}" target="_blank" style="display: inline-block">
+                                            <img src="{{ $media->getUrl('thumb') }}">
+                                        </a>
+                                    @endforeach
+                                @endif
                             </td>
                             <td>
-                                @can('user_to_monthly_bill_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.konfirmasi-pembayaran.show', $userToMonthlyBill->id) }}">
-                                        {{ trans('global.view') }}
-                                    </a>
-                                @endcan
+                                @if ($isExist)    
+                                    @can('user_to_monthly_bill_show')
+                                        <a class="btn btn-xs btn-primary" href="{{ route('admin.konfirmasi-pembayaran.show', $userToMonthlyBill[0]->id) }}">
+                                            {{ trans('global.view') }}
+                                        </a>
+                                    @endcan
 
-                                @can('user_to_monthly_bill_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.konfirmasi-pembayaran.edit', $userToMonthlyBill->id) }}">
-                                        {{ trans('global.edit') }}
-                                    </a>
-                                @endcan
+                                    @can('user_to_monthly_bill_edit')
+                                        <a class="btn btn-xs btn-info" href="{{ route('admin.konfirmasi-pembayaran.edit', $userToMonthlyBill[0]->id) }}">
+                                            {{ trans('global.edit') }}
+                                        </a>
+                                    @endcan
 
-                                @can('user_to_monthly_bill_delete')
-                                    <form action="{{ route('admin.konfirmasi-pembayaran.destroy', $userToMonthlyBill->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                    </form>
-                                @endcan
+                                    @can('user_to_monthly_bill_delete')
+                                        <form action="{{ route('admin.konfirmasi-pembayaran.destroy', $userToMonthlyBill[0]->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                            <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
+                                        </form>
+                                    @endcan
+                                @endif
 
                             </td>
 
