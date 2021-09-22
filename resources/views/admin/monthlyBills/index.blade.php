@@ -54,7 +54,9 @@
                             </td>
                             <td>
                                 @foreach ($monthlyBill->monthlyBilltoBill as $itemPivot)
-                                    {{ $itemPivot->bill->name ?? "" }}
+                                    <span class="badge rounded-pill bg-info mx-1">
+                                        {{ $itemPivot->bill->name ?? "" }}
+                                    </span>
                                 @endforeach
                             </td>
                             

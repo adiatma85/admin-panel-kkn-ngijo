@@ -10,7 +10,6 @@ use App\Models\Bill;
 use App\Models\MonthlyBillToBill;
 use App\Models\Scope;
 use App\Http\Controllers\Traits\CheckingScope;
-use App\Models\MonthlyBill;
 use Illuminate\Support\Facades\Auth;
 use Gate;
 use Illuminate\Http\Request;
