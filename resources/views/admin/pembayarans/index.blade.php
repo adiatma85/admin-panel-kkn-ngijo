@@ -13,9 +13,7 @@
                         <th width="10">
 
                         </th>
-                        <th>
-                            {{ trans('cruds.pembayarans.fields.id') }}
-                        </th>
+                        
                         <th>
                             {{ trans('cruds.pembayarans.fields.tahun') }}
                         </th>
@@ -23,7 +21,7 @@
                             {{ trans('cruds.pembayarans.fields.bulan') }}
                         </th>
                         <th>
-                            {{ trans('cruds.pembayarans.fields.scope') }}
+                            {{ trans('cruds.monthlyBill.fields.iuran') }}
                         </th>
                         <th>
                             {{ trans('cruds.pembayarans.fields.status') }}
@@ -39,9 +37,7 @@
                             <td>
 
                             </td>
-                            <td>
-                                {{ $monthlyBill->id ?? '' }}
-                            </td>
+                            
                             <td>
                                 {{ $monthlyBill->tahun ?? '' }}
                             </td>
@@ -49,7 +45,9 @@
                                 {{ App\Models\MonthlyBill::BULAN_SELECT[$monthlyBill->bulan] ?? 'Bulan' }}
                             </td>
                             <td>
-                                {{ $monthlyBill->scope->name ?? "" }}
+                                @foreach ($monthlyBill->monthlyBilltoBill as $itemPivot)
+                                    {{ $itemPivot->bill->name ?? "" }}
+                                @endforeach
                             </td>
                             <td>
                                 @php

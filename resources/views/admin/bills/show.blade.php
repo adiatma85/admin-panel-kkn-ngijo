@@ -16,12 +16,12 @@
             <table class="table table-bordered table-striped">
                 <tbody>
                     <tr>
-                        <th>
+                        <!--<th>
                             {{ trans('cruds.bill.fields.id') }}
                         </th>
                         <td>
                             {{ $bill->id }}
-                        </td>
+                        </td>-->
                     </tr>
                     <tr>
                         <th>
@@ -44,19 +44,10 @@
                             {{ trans('cruds.bill.fields.price') }}
                         </th>
                         <td>
-                            {{ $bill->price }}
+                            Rp. {{ $bill->price }}
                         </td>
                     </tr>
-                    @if (Auth::user()->scope_id != null)
-                        <tr>
-                            <th>
-                                {{ trans('cruds.bill.fields.scope') }}
-                            </th>
-                            <td>
-                                {{ $bill->scope->name ?? "" }}
-                            </td>
-                        </tr>
-                    @endif
+                    
                 </tbody>
             </table>
         </div>

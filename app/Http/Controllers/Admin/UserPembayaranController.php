@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
  
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Bill;
 use App\Models\MonthlyBill;
 use App\Models\UserToMonthlyBill;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
@@ -15,15 +16,16 @@ class UserPembayaranController extends Controller
 {
 
     use MediaUploadingTrait;
-    use CheckingScope;
+    use CheckingScope;  
 
     public function index()
     {
         // Fetch tagihan sesuai dengan scope
-        $monthlyBills = $this->checkingScope() ? 
+        $monthlyBills = $this->checkingScope() ?
             MonthlyBill::all() :
             MonthlyBill::where('scope_id', Auth::user()->scope_id)->get();
-        return view('admin.pembayarans.index', compact('monthlyBills'));
+        $monthlyBill = MonthlyBill::get();
+        return view('admin.pembayarans.index', compact('monthlyBills', 'monthlyBill'));
     }
 
     public function show($monthlyBillId)
@@ -78,12 +80,8 @@ class UserPembayaranController extends Controller
  
     public function editMetode(Request $request)
     {
-        UserToMonthlyBill::where('id',$request->id)->update(['metode_pembayaran' => $request->metode_pembayaran]);
+        UserToMonthlyBill::where('id', $request->id)->update(['metode_pembayaran' => $request->metode_pembayaran]);
         return redirect()->route('admin.pembayarans.index');
     }
-
-   
-   
     // no delete function in this group
 }
-  

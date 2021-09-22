@@ -11,7 +11,7 @@
 @endcan
 <div class="card">
     <div class="card-header">
-        {{ trans('cruds.bill.title_singular') }} {{ trans('global.list') }}
+    {{ trans('global.list') }} {{ trans('cruds.bill.title_singular') }} 
     </div>
 
     <div class="card-body">
@@ -22,9 +22,9 @@
                         <th width="10">
 
                         </th>
-                        <th>
+                        <!--<th>
                             {{ trans('cruds.bill.fields.id') }}
-                        </th>
+                        </th>-->
                         <th>
                             {{ trans('cruds.bill.fields.name') }}
                         </th>
@@ -34,11 +34,7 @@
                         <th>
                             {{ trans('cruds.bill.fields.price') }}
                         </th>
-                        @if (Auth::user()->scope_id != null)    
-                            <th>
-                                {{ trans('cruds.bill.fields.scope') }}
-                            </th>
-                        @endif
+                       
                         <th>
                             &nbsp;
                         </th>
@@ -51,22 +47,15 @@
 
                             </td>
                             <td>
-                                {{ $bill->id ?? '' }}
-                            </td>
-                            <td>
                                 {{ $bill->name ?? '' }}
                             </td>
                             <td>
                                 {{ $bill->description ?? '' }}
                             </td>
                             <td>
-                                {{ $bill->price ?? '' }}
+                                Rp. {{ $bill->price ?? '' }}
                             </td>
-                            @if (Auth::user()->scope_id != null)    
-                                <td>
-                                    {{ $bill->scope->name ?? "" }}
-                                </td>
-                            @endif
+                               
                             <td>
                                 @can('bill_show')
                                     <a class="btn btn-xs btn-primary" href="{{ route('admin.bills.show', $bill->id) }}">

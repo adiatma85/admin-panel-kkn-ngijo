@@ -11,7 +11,7 @@
 @endcan
 <div class="card">
     <div class="card-header">
-        {{ trans('cruds.announcement.title_singular') }} {{ trans('global.list') }}
+    {{ trans('global.list') }} {{ trans('cruds.announcement.title_singular') }} 
     </div>
 
     <div class="card-body">
@@ -22,20 +22,18 @@
                         <th width="10">
 
                         </th>
-                        <th>
+                        <!--<th>
                             {{ trans('cruds.announcement.fields.id') }}
-                        </th>
+                        </th>-->
                         <th>
                             {{ trans('cruds.announcement.fields.tittle') }}
                         </th>
                         <th>
+                            {{trans('cruds.announcement.fields.date')}}
+                        </th>
+                        <th>
                             {{ trans('cruds.announcement.fields.content') }}
                         </th>
-                        @if (Auth::user()->scope_id != null)    
-                            <th>
-                                {{ trans('cruds.bill.fields.scope') }}
-                            </th>
-                        @endif
                         <th>
                             &nbsp;
                         </th>
@@ -48,10 +46,10 @@
 
                             </td>
                             <td>
-                                {{ $announcement->id ?? '' }}
+                                {{ $announcement->tittle ?? '' }}
                             </td>
                             <td>
-                                {{ $announcement->tittle ?? '' }}
+                                {{ $announcement->date ?? '' }}
                             </td>
                             <td>
                                 {!! 
@@ -61,11 +59,6 @@
                                         $announcement->content ?? ""
                                     !!}
                             </td>
-                            @if (Auth::user()->scope_id != null)                                
-                                <td>
-                                    {{ $announcement->scope->name ?? "" }}
-                                </td>
-                            @endif
                             <td>
                                 @can('announcement_show')
                                     <a class="btn btn-xs btn-primary" href="{{ route('admin.announcements.show', $announcement->id) }}">

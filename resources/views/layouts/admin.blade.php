@@ -33,6 +33,8 @@
                 </li>
             </ul>
 
+            <div class="justify-center">Management Iuran dan Informasi</div>
+
             <!-- Right navbar links -->
             @if(count(config('panel.available_languages', [])) > 1)
                 <ul class="navbar-nav ml-auto">

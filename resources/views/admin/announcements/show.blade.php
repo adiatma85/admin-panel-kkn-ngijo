@@ -17,18 +17,18 @@
                 <tbody>
                     <tr>
                         <th>
-                            {{ trans('cruds.announcement.fields.id') }}
-                        </th>
-                        <td>
-                            {{ $announcement->id }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
                             {{ trans('cruds.announcement.fields.tittle') }}
                         </th>
                         <td>
                             {{ $announcement->tittle }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.announcement.fields.date') }}
+                        </th>
+                        <td>
+                        {{ $announcement->date ?? '' }}
                         </td>
                     </tr>
                     <tr>
@@ -39,17 +39,7 @@
                             {!! $announcement->content !!}
                         </td>
                     </tr>
-                    @if (Auth::user()->scope_id != null)    
-                        <tr>
-                            <th>
-                                {{ trans('cruds.bill.fields.scope') }} 
-                            </th>
-                            <td>
-                                {{-- Masukan, kayaknya lebih enak kalau pengumumannya dibentuk seperti article???? --}}
-                                {{ $announcement->scope->name ?? "" }}
-                            </td>
-                        </tr>
-                    @endif
+                            
                     <tr>
                         <th>
                             {{ trans('cruds.announcement.fields.attachment') }}

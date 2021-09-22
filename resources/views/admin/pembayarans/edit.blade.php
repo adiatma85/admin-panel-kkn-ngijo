@@ -17,14 +17,6 @@
                 <tbody>
                     <tr>
                         <th>
-                            {{ trans('cruds.monthlyBill.fields.id') }}
-                        </th>
-                        <td>
-                            {{ $monthlyBill->id ?? ""}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
                             {{ trans('cruds.monthlyBill.fields.tahun') }}
                         </th>
                         <td>
