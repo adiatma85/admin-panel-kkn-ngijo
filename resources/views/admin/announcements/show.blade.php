@@ -15,14 +15,6 @@
             </div>
             <table class="table table-bordered table-striped">
                 <tbody>
-                    <!--<tr>
-                        <th>
-                            {{ trans('cruds.announcement.fields.id') }}
-                        </th>
-                        <td>
-                            {{ $announcement->id }}
-                        </td>
-                    </tr>-->
                     <tr>
                         <th>
                             {{ trans('cruds.announcement.fields.tittle') }}
@@ -35,9 +27,9 @@
                         <th>
                             {{ trans('cruds.announcement.fields.date') }}
                         </th>
-                        <th>
-                            
-                        </th>
+                        <td>
+                        {{ $announcement->date ?? '' }}
+                        </td>
                     </tr>
                     <tr>
                         <th>
@@ -47,17 +39,7 @@
                             {!! $announcement->content !!}
                         </td>
                     </tr>
-                    @if (Auth::user()->scope_id != null)    
-                        <tr>
-                            <th>
-                                {{ trans('cruds.bill.fields.scope') }} 
-                            </th>
-                            <td>
-                                {{-- Masukan, kayaknya lebih enak kalau pengumumannya dibentuk seperti article???? --}}
-                                {{ $announcement->scope->name ?? "" }}
-                            </td>
-                        </tr>
-                    @endif
+                            
                     <tr>
                         <th>
                             {{ trans('cruds.announcement.fields.attachment') }}

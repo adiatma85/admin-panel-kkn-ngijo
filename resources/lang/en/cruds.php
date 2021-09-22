@@ -45,9 +45,11 @@ return [
         'title'          => 'Users',
         'title_singular' => 'User',
         'fields'         => [
+            'address'                  => 'Alamat',
+            'number'                   => 'No. Telepon',
             'id'                       => 'ID',
             'id_helper'                => ' ',
-            'name'                     => 'Name',
+            'name'                     => 'Nama',
             'name_helper'              => ' ',
             'email'                    => 'Email',
             'email_helper'             => ' ',
@@ -190,7 +192,7 @@ return [
             'content_helper'    => ' ',
             'attachment'        => 'Lampiran',
             'attachment_helper' => ' ',
-            'date'              => 'Hari/Tanggal',
+            'date'              => 'Tanggal',
         ],
     ],
     'scope' => [
