@@ -7,8 +7,10 @@ use App\Http\Requests\MassDestroyBillRequest;
 use App\Http\Requests\StoreBillRequest;
 use App\Http\Requests\UpdateBillRequest;
 use App\Models\Bill;
+use App\Models\MonthlyBillToBill;
 use App\Models\Scope;
 use App\Http\Controllers\Traits\CheckingScope;
+use App\Models\MonthlyBill;
 use Illuminate\Support\Facades\Auth;
 use Gate;
 use Illuminate\Http\Request;
@@ -70,6 +72,9 @@ class BillController extends Controller
     {
         abort_if(Gate::denies('bill_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        // Clean up
+        MonthlyBillToBill::where('bill_id', $bill->id)->delete();
+
         $bill->delete();
 
         return back();
@@ -78,6 +83,9 @@ class BillController extends Controller
     public function massDestroy(MassDestroyBillRequest $request)
     {
         Bill::whereIn('id', request('ids'))->delete();
+
+        // Cleanup
+        MonthlyBillToBill::whereIn('bill_id', request('ids'))->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
