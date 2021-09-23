@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('content')
-@can('user_to_monthly_bill_create')
+{{-- @can('user_to_monthly_bill_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
             <a class="btn btn-success" href="{{ route('admin.konfirmasi-pembayaran.create') }}">
@@ -8,7 +8,7 @@
             </a>
         </div>
     </div>
-@endcan
+@endcan --}}
 <div class="card">
     <div class="card-header">
         {{ trans('cruds.userToMonthlyBill.title_singular') }} {{ trans('global.list') }}
@@ -100,7 +100,7 @@
                                         </a>
                                     @endcan
 
-                                    @can('user_to_monthly_bill_edit')
+                                    {{-- @can('user_to_monthly_bill_edit')
                                         <a class="btn btn-xs btn-info" href="{{ route('admin.konfirmasi-pembayaran.edit', $userToMonthlyBill[0]->id) }}">
                                             {{ trans('global.edit') }}
                                         </a>
@@ -112,7 +112,11 @@
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                             <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
                                         </form>
-                                    @endcan
+                                    @endcan --}}
+                                @else
+                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.konfirmasi-pembayaran.createNew', [ 'monthlyBill_id' => $monthlyBill->id, "user_id" => $user->id ]) }}">
+                                        {{ trans('global.view') }}
+                                    </a>
                                 @endif
 
                             </td>

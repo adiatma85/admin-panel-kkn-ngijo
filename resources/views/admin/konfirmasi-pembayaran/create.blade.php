@@ -7,60 +7,142 @@
     </div>
 
     <div class="card-body">
-        <form method="POST" action="{{ route("admin.konfirmasi-pembayaran.store") }}" enctype="multipart/form-data">
-            @csrf
+        <div class="form-group">
             <div class="form-group">
-                <label for="user_id">{{ trans('cruds.userToMonthlyBill.fields.user') }}</label>
-                <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="user_id" id="user_id">
-                    @foreach($users as $id => $entry)
-                        <option value="{{ $id }}" {{ old('user_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('user'))
-                    <span class="text-danger">{{ $errors->first('user') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.userToMonthlyBill.fields.user_helper') }}</span>
+                <a class="btn btn-default" href="{{ route('admin.konfirmasi-pembayaran.index') }}">
+                    {{ trans('global.back_to_list') }}
+                </a>
             </div>
-            <div class="form-group">
-                <label for="monthly_bill_id">{{ trans('cruds.userToMonthlyBill.fields.monthly_bill') }}</label>
-                <select class="form-control select2 {{ $errors->has('monthly_bill') ? 'is-invalid' : '' }}" name="monthly_bill_id" id="monthly_bill_id">
-                    @foreach($monthly_bills as $id => $entry)
-                        <option value="{{ $id }}" {{ old('monthly_bill_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+            <table class="table table-bordered table-striped">
+                <tbody>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.userToMonthlyBill.fields.user') }}
+                        </th>
+                        <td>
+                            {{ $user->name ?? 'Ini nanti jadinya nama' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.userToMonthlyBill.fields.monthly_bill') }}
+                        </th>
+                        <td>
+                          {{ $monthlyBill->bulan ? : 'Bulan' }} {{ $monthlyBill->tahun ? : 'Tahun' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                        {{ trans('cruds.userToMonthlyBill.fields.status_pembayaran') }}
+                        </th>
+                        <td>
+                            <span class="badge rounded-pill bg-danger">
+                                Not Paid
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <h2>
+                Detail Pembayaran
+            </h2>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <thead>
+                        <th>
+                            Nama iuran
+                        </th>
+                        <th>
+                            Price
+                        </th>
+                        <th>
+                            Metode Pembayaran
+                        </th> 
+                        <th>
+                            Status Pembayaran
+                        </th>
+                        <th>
+                            Tanggal Pembayaran
+                        </th>
+                </thead>
+                <tbody>
+                    @foreach ($monthlyBill->monthlyBilltoBill as $bill)
+                    
+                        <tr>
+                            <td>{{ $bill->bill->name ?? "" }}</td>
+                            <td>Rp. {{ $bill->bill->price ?? "" }}</td>
+                            <td> - </td>
+                            <td>
+                                <span class="badge rounded-pill bg-danger">
+                                    Not Paid
+                                </span>
+                            </td>
+                            <td> - </td>
+                        </tr>
                     @endforeach
-                </select>
-                @if($errors->has('monthly_bill'))
-                    <span class="text-danger">{{ $errors->first('monthly_bill') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.userToMonthlyBill.fields.monthly_bill_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label>{{ trans('cruds.userToMonthlyBill.fields.status_pembayaran') }}</label>
-                <select class="form-control {{ $errors->has('status_pembayaran') ? 'is-invalid' : '' }}" name="status_pembayaran" id="status_pembayaran">
-                    <option value disabled {{ old('status_pembayaran', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                    @foreach(App\Models\UserToMonthlyBill::STATUS_PEMBAYARAN_SELECT as $key => $label)
-                        <option value="{{ $key }}" {{ old('status_pembayaran', 'Not Paid') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('status_pembayaran'))
-                    <span class="text-danger">{{ $errors->first('status_pembayaran') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.userToMonthlyBill.fields.status_pembayaran_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="images">{{ trans('cruds.userToMonthlyBill.fields.images') }}</label>
-                <div class="needsclick dropzone {{ $errors->has('images') ? 'is-invalid' : '' }}" id="images-dropzone">
+                </tbody>
+            </table>
+            <form method="POST" action="{{ route("admin.konfirmasi-pembayaran.store") }}" enctype="multipart/form-data">
+                @csrf
+                <input type="hidden" name="user_id" value="{{ $user->id ?? 0 }}">
+                <input type="hidden" name="monthly_bill_id" value="{{ $monthlyBill->id }}">
+                <div class="form-group">
+                    <label>{{ trans('cruds.userToMonthlyBill.fields.status_pembayaran') }}</label>
+                    <select class="form-control {{ $errors->has('status_pembayaran') ? 'is-invalid' : '' }}" name="status_pembayaran" id="status_pembayaran">
+                        <option value disabled {{ old('status_pembayaran', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
+                        @foreach(App\Models\UserToMonthlyBill::STATUS_PEMBAYARAN_SELECT as $key => $label)
+                            <option value="{{ $key }}" {{ old('status_pembayaran', "") === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                        @endforeach
+                    </select>
+                    @if($errors->has('status_pembayaran'))
+                        <span class="text-danger">{{ $errors->first('status_pembayaran') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.userToMonthlyBill.fields.status_pembayaran_helper') }}</span>
                 </div>
-                @if($errors->has('images'))
-                    <span class="text-danger">{{ $errors->first('images') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.userToMonthlyBill.fields.images_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <button class="btn btn-danger" type="submit">
-                    {{ trans('global.save') }}
-                </button>
-            </div>
-        </form>
+                <div class="form-group">
+                    <label class="required" for="nominal_pembayaran">{{ 'Nominal Pembayaran' }}</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Rp</span>  
+                        </div>
+                        <input class="form-control {{ $errors->has('nominal_pembayaran') ? 'is-invalid' : '' }}" type="number" name="nominal_pembayaran" id="nominal_pembayaran" value="{{ old('nominal_pembayaran', '0') }}" step="0.01" required>
+                        <div class="input-group-append">
+                            <span class="input-group-text">.00</span>  
+                        </div>
+                    </div>
+                    @if($errors->has('nominal_pembayaran'))
+                        <span class="text-danger">{{ $errors->first('nominal_pembayaran') }}</span>
+                    @endif
+                </div>
+                <div class="form-group">
+                    <label class="required">{{ trans('cruds.pembayarans.fields.metode_pembayaran') }}</label>
+                    <select class="form-control {{ $errors->has('metode_pembayaran') ? 'is-invalid' : '' }} select2" name="metode_pembayaran" id="metode_pembayaran" required>
+                        <option value disabled {{ old('metode_pembayaran', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
+                        @foreach(App\Models\UserToMonthlyBill::METODE_PEMBAYARAN_SELECT as $key => $label)
+                            <option value="{{ $key }}" {{ old('metode_pembayaran', '') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                        @endforeach
+                    </select>
+                    @if($errors->has('metode_pembayaran'))
+                        <span class="text-danger">{{ $errors->first('metode_pembayaran') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.pembayarans.fields.metode_pembayaran_helper') }}</span>
+                </div>
+                <div class="form-group">
+                    <label for="images">{{ trans('cruds.userToMonthlyBill.fields.images') }}</label>
+                    <div class="needsclick dropzone {{ $errors->has('images') ? 'is-invalid' : '' }}" id="images-dropzone">
+                    </div>
+                    @if($errors->has('images'))
+                        <span class="text-danger">{{ $errors->first('images') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.userToMonthlyBill.fields.images_helper') }}</span>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-danger" type="submit">
+                        {{ trans('global.save') }}
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
@@ -72,7 +154,7 @@
 <script>
     var uploadedImagesMap = {}
 Dropzone.options.imagesDropzone = {
-    url: '{{ route('admin.konfirmasi-pembayaran.storeMedia') }}',
+    url: '{{ route('admin.pembayarans.storeMedia') }}',
     maxFilesize: 2, // MB
     acceptedFiles: '.jpeg,.jpg,.png,.gif',
     addRemoveLinks: true,
@@ -100,16 +182,6 @@ Dropzone.options.imagesDropzone = {
       $('form').find('input[name="images[]"][value="' + name + '"]').remove()
     },
     init: function () {
-@if(isset($userToMonthlyBill) && $userToMonthlyBill->images)
-      var files = {!! json_encode($userToMonthlyBill->images) !!}
-          for (var i in files) {
-          var file = files[i]
-          this.options.addedfile.call(this, file)
-          this.options.thumbnail.call(this, file, file.preview)
-          file.previewElement.classList.add('dz-complete')
-          $('form').append('<input type="hidden" name="images[]" value="' + file.file_name + '">')
-        }
-@endif
     },
      error: function (file, response) {
          if ($.type(response) === 'string') {

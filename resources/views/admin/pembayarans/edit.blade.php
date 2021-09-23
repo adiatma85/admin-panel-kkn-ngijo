@@ -108,7 +108,6 @@
         <form method="POST" action="{{ route('admin.pembayarans.update', [ "pembayaran" => $monthlyBill->id ]) }}" enctype="multipart/form-data">
             @method('PUT')
             @csrf
-            {{-- Foto --}}
             <div class="form-group">
                 <label class="required">{{ trans('cruds.pembayarans.fields.metode_pembayaran') }}</label>
                 <select class="form-control {{ $errors->has('metode_pembayaran') ? 'is-invalid' : '' }} select2" name="metode_pembayaran" id="metode_pembayaran" required>

@@ -56,21 +56,21 @@ class KonfirmasiPembayaranController extends Controller
             ->with(['user', 'monthly_bill', 'media'])
             ->get();
 
-        return view('admin.konfirmasi-pembayaran.detailed-index', compact('userToMonthlyBills', 'monthlyBill', 'users'));
+        return view('admin.konfirmasi-pembayaran.detailed-index', compact('monthlyBill', 'users'));
     }
 
-    public function create()
+    public function create($monthlyBill_id, $user_id)
     {
         abort_if(Gate::denies('user_to_monthly_bill_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $user = User::find($user_id);
 
-        $monthly_bills = MonthlyBill::pluck('tahun', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $monthlyBill = MonthlyBill::find($monthlyBill_id);
 
-        return view('admin.konfirmasi-pembayaran.create', compact('users', 'monthly_bills'));
+        return view('admin.konfirmasi-pembayaran.create', compact('user', 'monthlyBill'));
     }
 
-    public function store(StoreUserToMonthlyBillRequest $request)
+    public function store(Request $request)
     {
         $userToMonthlyBill = UserToMonthlyBill::create($request->all());
 
@@ -82,7 +82,7 @@ class KonfirmasiPembayaranController extends Controller
             Media::whereIn('id', $media)->update(['model_id' => $userToMonthlyBill->id]);
         }
 
-        return redirect()->route('admin.user-to-monthly-bills.index');
+        return redirect()->route('admin.index-detail-pembayaran', [ "monthlyBill_Id" => $request->input('monthly_bill_id') ]);
     }
 
     public function edit($userToMonthlyBillId)
@@ -118,7 +118,7 @@ class KonfirmasiPembayaranController extends Controller
             }
         }
 
-        return redirect()->route('admin.user-to-monthly-bills.index');
+        return redirect()->route('admin.index-detail-pembayaran', [ "monthlyBill_Id" => $userToMonthlyBill->monthly_bill_id ]);
     }
 
     public function show($userToMonthlyBillId)
