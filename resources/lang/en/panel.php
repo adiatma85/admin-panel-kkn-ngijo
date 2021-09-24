@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'site_title' => 'Panel Management Iuran dan Informasi',
+    'site_title' => 'MIDES',
 ];
